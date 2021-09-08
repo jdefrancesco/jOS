@@ -21,7 +21,7 @@ _end:
 	hlt
 	jmp _end
 
-Message: db "Hello"
+Message: db "Hello", 0x0a, 0x0
 MessageLen: equ $-Message
 
 times (0x1be-($-$$)) db 0
