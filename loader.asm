@@ -102,21 +102,17 @@ set_vid_mode:
 	mov ax, 3 ; Setup text mode
 	int 0x10
 
-	mov si, Message
-	mov ax, 0xb800
-	mov es, ax
-	xor di, di
-	mov cx, MessageLen ; will need to print messages
+	; Setup GDT,IDT
+	cli
+	lgdt [gdt_32_ptr]
+	lidt [idt_32_ptr]
 
-print_message:
-	mov al, [si]
-	mov [es:di], al
-	mov byte[es:di+1], GREEN
+	; Enable protected mode
+	mov eax, cr0
+	or eax, 1
+	mov cr0, eax
 
-	add di, 2
-	add si, 1
-	loop print_message ; cx was set in set_vid_mode to len of message
-
+	jmp 8:pm_entry
 
 read_error:
 not_supported:
@@ -124,8 +120,47 @@ end:
 	hlt
 	jmp end
 
+; Protected Mode....
+[BITS 32]
+
+pm_entry:
+	mov ax, 0x10
+	mov ds, ax
+	mov es, ax
+	mov ss, ax
+	mov esp, 0x7c00
+
+	mov byte[0xb8000], 'P'
+	mov byte[0xb8001], 0xa
+
+pend:
+	hlt
+	jmp pend
+
 
 DriveId: db 0
-Message: db "[+] Text mode set", 0x0a
-MessageLen: equ $-Message
 ReadPacket: times 16 db 0
+
+gdt_32:
+	dq 0
+code_32:
+	dw 0xffff
+	dw 0
+	db 0
+	db 0x9a
+	db 0xcf
+	db 0
+data_32:
+	dw 0xffff
+	dw 0
+	db 0
+	db 0x92
+	db 0xcf
+	db 0
+
+gdt_32_len: equ $-gdt_32
+
+gdt_32_ptr: dw gdt_32_len-1
+			dd gdt_32
+
+idt_32_ptr: dw 0
