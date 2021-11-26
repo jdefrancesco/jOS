@@ -130,12 +130,48 @@ pm_entry:
 	mov ss, ax
 	mov esp, 0x7c00
 
-	mov byte[0xb8000], 'P'
-	mov byte[0xb8001], 0xa
+; Setup and enable paging
+	cld
+	mov edi, 0x80000
+	xor eax, eax
+	mov ecx, 0x10000/4
+	rep stosd
+
+	mov dword[0x80000], 0x81007
+	mov dword[0x81000], 0b10000111
+
+	lgdt [gdt_64_ptr]
+
+	mov eax, cr4
+	or eax, (1 << 5)
+	mov cr4, eax
+
+	mov eax, 0x80000 ; still physical addresses. we need to map VM
+	mov cr3, eax
+
+	mov ecx, 0xc0000080
+	rdmsr
+	or eax, (1<<8)
+	wrmsr
+
+	mov eax, cr0
+	or eax, (1<<31)
+	mov cr0, eax
+
+	jmp 8:lm_entry
 
 pend:
 	hlt
 	jmp pend
+
+; Long mode entry...
+
+[BITS 64]
+
+lm_entry:
+	mov rsp, 0x7c00
+	mov byte[0xb8000], 'L'
+	mov byte[0xb8001], 0xa
 
 
 DriveId: db 0
@@ -159,8 +195,16 @@ data_32:
 	db 0
 
 gdt_32_len: equ $-gdt_32
-
 gdt_32_ptr: dw gdt_32_len-1
 			dd gdt_32
-
 idt_32_ptr: dw 0
+
+
+gdt_64:
+	dq 0
+	dq 0x0020980000000000
+gdt_64_len: equ $-gdt_64
+
+gdt_64_ptr: dw gdt_64_len - 1
+			dd gdt_64
+
