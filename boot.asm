@@ -2,11 +2,13 @@
 [ORG 0x7C00]
 
 start:
+	cli
 	xor ax, ax
 	mov ds, ax
 	mov es, ax
 	mov ss, ax
 	mov sp, 0x7c00
+	sti
 
 print_message:
 	mov ah, 0x13 ; we want to print
@@ -30,7 +32,7 @@ times (0x1be-($-$$)) db 0
 	db 0x0f0		 	   ; type
 	db 0x0ff, 0x0ff, 0x0ff ; ending CHS
 	dd 1 				   ; starting sector
-	dd (20*16*63-1)  ; size partition has (10mb)
+	dd (20*16*63-1)  	   ; size partition has (10mb)
 
 	times (16*3) db 0      ; fill with zeros
 
