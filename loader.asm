@@ -170,8 +170,21 @@ pend:
 
 lm_entry:
 	mov rsp, 0x7c00
-	mov byte[0xb8000], 'L'
-	mov byte[0xb8001], 0xa
+
+	cld
+	mov rdi, 0x200000
+	mov rsi, 0x10000
+	mov rcx, 51200/8
+	rep movsq
+
+	; Now kernel is at 0x200000
+	jmp 0x200000
+
+lm_end:
+	hlt
+	jmp lm_end
+
+
 
 
 DriveId: db 0
