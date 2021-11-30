@@ -102,6 +102,8 @@ set_vid_mode:
 	mov ax, 3 ; Setup text mode
 	int 0x10
 
+; Setup GDT/Protected Mode!!
+
 	; Setup GDT,IDT
 	cli
 	lgdt [gdt_32_ptr]
@@ -130,7 +132,8 @@ pm_entry:
 	mov ss, ax
 	mov esp, 0x7c00
 
-; Setup and enable paging
+	; The following is to setup
+	; setup and enable paging...
 	cld
 	mov edi, 0x80000
 	xor eax, eax
@@ -142,39 +145,45 @@ pm_entry:
 
 	lgdt [gdt_64_ptr]
 
+	; To enable 64 bit mode (bit 5 must be set which is PAE)
 	mov eax, cr4
 	or eax, (1 << 5)
 	mov cr4, eax
 
+	; CR3 has physical address
 	mov eax, 0x80000 ; still physical addresses. we need to map VM
 	mov cr3, eax
 
+	; Enable Long Mode by setting bit eight in MSR
 	mov ecx, 0xc0000080
 	rdmsr
 	or eax, (1<<8)
 	wrmsr
 
+	; Enable paging by setting bit 31 in CR0
 	mov eax, cr0
 	or eax, (1<<31)
 	mov cr0, eax
 
+	; Each entry is eight bytes and we jump to second entry (in GDT).
+	; This is why we preceeded the jmp label with 8.
 	jmp 8:lm_entry
 
 pend:
 	hlt
 	jmp pend
 
-; Long mode entry...
-
+; Long mode entry... We are running in 64-bit mode now!
 [BITS 64]
 
 lm_entry:
+	; reset stack pointer
 	mov rsp, 0x7c00
 
-	cld
+	cld ; Make sure we are copying data in forward direction.
 	mov rdi, 0x200000
-	mov rsi, 0x10000
-	mov rcx, 51200/8
+	mov rsi, 0x10000 ; 65k
+	mov rcx, 51200/8 ; Moving quad words so divide by 8.
 	rep movsq
 
 	; Now kernel is at 0x200000
@@ -183,8 +192,6 @@ lm_entry:
 lm_end:
 	hlt
 	jmp lm_end
-
-
 
 
 DriveId: db 0
