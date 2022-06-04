@@ -1,8 +1,9 @@
 #include <stdint.h>
-#include <stdlib.h>
+
 
 #include "trap.h"
 #include "print.h"
+#include "debug.h"
 
 void kmain(void)
 {
@@ -12,6 +13,5 @@ void kmain(void)
     // Initialize IDT
     init_idt();
 
-    printk("%s\n", boot_string);
-    printk("test value = %x", value);
+    ASSERT(0);
 }
