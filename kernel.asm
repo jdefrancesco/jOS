@@ -59,18 +59,7 @@ tss_desc:
 gdt_64_len: equ $-gdt_64
 gdt_64_ptr: dw gdt_64_len - 1
 			dq gdt_64
-idt:
-	%rep 256
-		dw 0
-		dw 0x8
-		db 0
-		db 0x8e
-		dw 0
-		dd 0
-		dd 0
-	%endrep
-
-idt_len: equ $-idt
+idt
 idt_ptr: dw idt_len-1
 		 dq idt
 tss:
