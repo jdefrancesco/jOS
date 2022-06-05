@@ -7,6 +7,7 @@
 
 static struct free_mem_region_t free_mem_region[50];
 
+// We need to get the available memory from the BIOS
 void init_memory(void) 
 {
     uint64_t total_mem = 0;
@@ -29,5 +30,5 @@ void init_memory(void)
                                 (uint64_t)mem_map[i].type);
     } 
 
-    printk("Total memory");
+    printk("Total memory is %uMB\n", total_mem/1024/1024);
 }

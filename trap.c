@@ -4,6 +4,7 @@
 static struct idt_ptr idt_pointer;
 static struct idt_entry vectors[VECTOR_COUNT];
 
+// init_idt_entry initalizes the Interrupt Descriptor Table
 static void
 init_idt_entry(struct idt_entry *entry, uint64_t addr, uint8_t attrib)
 {

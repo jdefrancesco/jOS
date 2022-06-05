@@ -1,3 +1,9 @@
+
+// print.c is part of the jOS kernel project.
+//
+// This file implements basic string formatting and conversion tasks.
+// The code is a bit sloppy, I will make it more elegant as I progress.
+//
 #include <stdint.h>
 #include <stdarg.h>
 #include <stddef.h>
@@ -5,11 +11,6 @@
 #include "print.h"
 #include "klib.h"
 
-// print.c is part of the jOS kernel project./
-//
-// This file implements basic string formatting and conversion tasks.
-// The code is a bit sloppy, I will make it more elegant as I progress.
-//
 
 // the row, col = 0, 0
 static struct screen_buffer sb = {(char *)0xb8000, 0, 0};
