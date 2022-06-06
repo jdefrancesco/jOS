@@ -35,8 +35,8 @@ load_loader:
 	mov dl, [DriveId]
 	jmp 0x7e00 ; jump to code
 
-not_supported:
 read_error:
+not_supported:
 	mov ah, 0x13 ; we want to print
 	mov al, 1
 	mov bx, 0xa	; print bright green

@@ -1,5 +1,5 @@
-#ifndef _MEMORY_H_
-#define _MEMORY_H_
+#ifndef _MEMORY_H
+#define _MEMORY_H
 
 #include <stdint.h>
 
@@ -17,4 +17,5 @@ struct free_mem_region_t {
 };
 
 void init_memory(void);
+
 #endif 

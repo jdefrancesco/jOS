@@ -1,6 +1,4 @@
 #include <stdint.h>
-
-
 #include "trap.h"
 #include "print.h"
 #include "debug.h"

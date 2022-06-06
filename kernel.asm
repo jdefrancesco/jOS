@@ -88,6 +88,7 @@ extern kmain
 
 global start
 
+; Initialize out GDT
 start:
 	lgdt [gdt_64_ptr]
 

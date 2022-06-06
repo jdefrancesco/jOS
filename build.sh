@@ -20,7 +20,7 @@ x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-prote
 x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -c debug.c
 x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -c memory.c
 
-x86_64-elf-ld -T link.lds -o kernel kernel.o main.o trapa.o trap.o kliba.o print.o debug.o memory.o
+x86_64-elf-ld -nostdlib -T link.lds -o kernel kernel.o main.o trapa.o trap.o kliba.o print.o debug.o memory.o
 x86_64-elf-objcopy -Obinary kernel kernel.bin
 
 dd if=boot.bin of=boot.img bs=512 count=1 conv=notrunc

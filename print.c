@@ -21,12 +21,13 @@ static struct screen_buffer sb = {(char *)0xb8000, 0, 0};
 
 static size_t udec_to_string(char *buffer, size_t pos, uint64_t digits)
 {
-    const char * const kDecDigits = DEC_DIGITS;
-    char digits_buffer[DIGITS_BUFF_SIZE];
-    size_t sz = 0;
+    // const char * const kDecDigits = DEC_DIGITS;
+    char digits_map[10] = DEC_DIGITS;
+    char digits_buffer[DIGITS_BUFF_SIZE] = {0};
+    int sz = 0;
 
     do {
-        digits_buffer[sz++] = kDecDigits[digits % 10];
+        digits_buffer[sz++] = digits_map[digits % 10];
         digits /= 10;
     } while ((digits != 0) && (sz < DIGITS_BUFF_SIZE));
 
@@ -36,7 +37,6 @@ static size_t udec_to_string(char *buffer, size_t pos, uint64_t digits)
     }
 
     return sz;
-
 }
 
 
@@ -90,7 +90,9 @@ static int hex_to_string(char *buffer, size_t pos, uint64_t digits)
 
 }
 
-// Crude page scrolling
+// write_to_screen prints data to output. Crude page scrolling
+// is also implemented; we can improve it in the future if 
+// need be.
 static void write_screen(const char *buffer,
         size_t size,
         struct screen_buffer *sb,
@@ -110,8 +112,8 @@ static void write_screen(const char *buffer,
             column = 0;
             row++;
         } else {
-            sb->buff[column*2+row*LINE_SIZE] = buffer[i];
-            sb->buff[column*2+row*LINE_SIZE+1] = color;
+            sb->buff[column * 2 + row * LINE_SIZE] = buffer[i];
+            sb->buff[column * 2 + row * LINE_SIZE+1] = color;
 
             column++;
 

@@ -1,7 +1,7 @@
 #ifndef _PRINT_H
 #define _PRINT_H
 
-#define LINE_SIZE 256
+#define LINE_SIZE 160
 #define MAX_BUFF_SIZE 1024
 #define DIGITS_BUFF_SIZE 25
 
