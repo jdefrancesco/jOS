@@ -74,11 +74,11 @@ idt_ptr: dw idt_len-1
 		 dq idt
 tss:
 	dd 0
-	dq 0x150000
+	dq 0x190000
 	times 88 db 0
 	dd tss_len
 
-tss_len equ $-tss
+tss_len: equ $-tss
 
 
 Section .text
