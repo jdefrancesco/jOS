@@ -1,3 +1,4 @@
+; Macro to save all regs.
 %macro push_all_regs 0
 
 	push rax
@@ -18,7 +19,7 @@
 
 %endmacro
 
-
+; Pop all saved regs
 %macro pop_all_regs 0
 
 	pop r15
@@ -47,6 +48,11 @@ gdt_64:
 	dq 0x0020F80000000000 ; DPL will be 11 (ring 3)
 	dq 0x0000F20000000000 ; P = 1, DPL = 11, W = 1
 
+; TSS (Task State Segment) setup. An x86 specific structure holding information about
+; a task. This is pointed to by the TR register which contains the segment selector; 
+; located in the GDT. TSS holds the following information:
+; - Processor register state
+; - I/O port permissions
 tss_desc:
 	dw tss_len-1
 	dw 0
@@ -56,9 +62,21 @@ tss_desc:
 	db 0
 	dq 0
 
+tss:
+	dd 0
+	dq 0x190000
+	times 88 db 0
+	dd tss_len
+
+tss_len: equ $-tss
+
+
+; GDT lengths and location.
 gdt_64_len: equ $-gdt_64
 gdt_64_ptr: dw gdt_64_len - 1
 			dq gdt_64
+
+; Interupt Descriptor Table setup...
 idt: 
 	%rep 256
 		dw 0
@@ -72,13 +90,6 @@ idt:
 idt_len: equ $-idt
 idt_ptr: dw idt_len-1
 		 dq idt
-tss:
-	dd 0
-	dq 0x190000
-	times 88 db 0
-	dd tss_len
-
-tss_len: equ $-tss
 
 
 Section .text
@@ -101,7 +112,6 @@ setTss:
 	mov [tss_desc+7], al
 	shr rax, 8
 	mov [tss_desc+8], eax
-
 	mov ax, 0x20
 	ltr ax
 
@@ -120,6 +130,7 @@ init_pit:
 	mov al, ah
 	out 0x40, al
 
+; Initialize APIC. 
 init_pic:
 	; Init PIC
 	mov al, 0x11

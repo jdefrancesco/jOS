@@ -5,8 +5,8 @@
 // The code is a bit sloppy, I will make it more elegant as I progress.
 //
 #include <stdint.h>
-#include <stdarg.h>
 #include <stddef.h>
+#include <stdarg.h>
 
 #include "print.h"
 #include "klib.h"
@@ -19,6 +19,7 @@ static struct screen_buffer sb = {(char *)0xb8000, 0, 0};
 #define HEX_DIGITS "0123456789ABCDEF"
 
 
+// Unsigned decimal to string formatting function.
 static size_t udec_to_string(char *buffer, size_t pos, uint64_t digits)
 {
     // const char * const kDecDigits = DEC_DIGITS;
@@ -67,7 +68,7 @@ static size_t read_string(char *buffer, size_t pos, const char *str)
     return i;
 }
 
-//
+// Dump string from hex.
 static int hex_to_string(char *buffer, size_t pos, uint64_t digits)
 {
     char digits_buffer[DIGITS_BUFF_SIZE];

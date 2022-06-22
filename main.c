@@ -2,7 +2,6 @@
 #include "trap.h"
 #include "print.h"
 #include "debug.h"
-#include "memory.h"
 
 void kmain(void)
 {
