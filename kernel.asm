@@ -62,19 +62,19 @@ tss_desc:
 	db 0
 	dq 0
 
+; GDT lengths and location.
+gdt_64_len: equ $-gdt_64
+gdt_64_ptr: dw gdt_64_len - 1
+			dq gdt_64
 tss:
 	dd 0
-	dq 0x190000
+	dq 0xffff800000190000
 	times 88 db 0
 	dd tss_len
 
 tss_len: equ $-tss
 
 
-; GDT lengths and location.
-gdt_64_len: equ $-gdt_64
-gdt_64_ptr: dw gdt_64_len - 1
-			dq gdt_64
 
 ; Interupt Descriptor Table setup...
 idt: 
@@ -101,17 +101,19 @@ global start
 
 ; Initialize out GDT
 start:
-	lgdt [gdt_64_ptr]
+	mov rax, gdt_64_ptr
+	lgdt [rax]
 
 setTss:
 	mov rax, tss
-	mov [tss_desc+2], ax
+	mov rdi, tss_desc
+	mov [rdi+2], ax
 	shr rax, 16
-	mov [tss_desc+4], al
+	mov [rdi+4], al
 	shr rax, 8
-	mov [tss_desc+7], al
+	mov [rdi+7], al
 	shr rax, 8
-	mov [tss_desc+8], eax
+	mov [rdi+8], eax
 	mov ax, 0x20
 	ltr ax
 
@@ -156,8 +158,9 @@ init_pic:
 	mov al, 0b11111111
 	out 0xa1, al
 
+	mov rax, kernel_entry
 	push 8
-	push kernel_entry
+	push rax
 	db 0x48 ; this will prefix
 	retf ; far return will pop IP and CS register (same priv level)
 		 ; NOTE: The default operand size of far return is 32 bits
@@ -165,21 +168,13 @@ init_pic:
 		 ; size prefix to retf (0x48) which will let us work with 8 byte operand.
 
 kernel_entry:
-	xor ax, ax
-	mov ss, ax
-
-	mov rsp, 0x200000
+	mov rsp, 0xffff800000200000
 	call kmain
-
-	; NOTE: Turned off for development till we deal with ring3
-	; sti
 
 end:
 	hlt
 	jmp end
 
-uend:
-	jmp  uend
 
 ; Div by zero handler.
 timer:

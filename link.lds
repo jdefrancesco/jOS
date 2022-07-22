@@ -3,8 +3,8 @@ ENTRY(start)
 
 SECTIONS
 {
-    /* Load kernel at 0x200000 */
-    . = 0x200000;
+    /* Load kernel at 0xffff800000200000 */
+    . = 0xffff800000200000;
     .text : {
         *(.text)
     }

@@ -78,14 +78,6 @@ get_mem_info:
 
 
 get_mem_done:
-;	mov ah, 0x13
-;	mov al, 1
-;	mov bx, 0xa
-;	xor dx, dx
-;	mov bp, Message ; string to print
-;	mov cx, MessageLen ; length of string
-;	int 0x10 ; invoke BIOS
-
 test_a20:
 	mov ax, 0xffff
 	mov es, ax
@@ -104,6 +96,7 @@ set_a20_line_done:
 set_vid_mode:
 	mov ax, 3 ; Setup text mode
 	int 0x10
+
 
 ; Setup GDT/Protected Mode!!
 
@@ -135,16 +128,33 @@ pm_entry:
 	mov ss, ax
 	mov esp, 0x7c00
 
+	; cld
+	; mov edi, 0x80000
+	; xor eax, eax
+	; mov ecx, 0x10000/4
+	; rep stosd
+
 	; The following is to setup
 	; setup and enable paging...
-	cld
-	mov edi, 0x80000
+	cld 
+	mov edi, 0x70000
 	xor eax, eax
 	mov ecx, 0x10000/4
 	rep stosd
 
-	mov dword[0x80000], 0x81007
-	mov dword[0x81000], 0b10000111
+	; mov dword[0x80000], 0x81007
+	; mov dword[0x81000], 0b10000111
+
+	; The lower set bits are attributes we need to assign for PML4. (RING0)
+	mov dword[0x70000], 0x71003 ; 0b0...000(011) (Last three bits are UWP attributes.)
+	; PDPE
+	mov dword[0x71000], 0b10000011 ; bit 7 is one indicating this is a 1GB page translation.
+
+	; Obtain nine bit index value
+	mov eax, (0xffff800000000000>>39)
+	and eax, 0x1ff 
+	mov dword[0x70000+eax*8], 0x72003
+	mov dword[0x72000], 0b10000011
 
 	lgdt [gdt_64_ptr]
 
@@ -154,7 +164,7 @@ pm_entry:
 	mov cr4, eax
 
 	; CR3 has physical address
-	mov eax, 0x80000 ; still physical addresses. we need to map VM
+	mov eax, 0x70000 ; still physical addresses. we need to map VM
 	mov cr3, eax
 
 	; Enable Long Mode by setting bit eight in MSR
@@ -189,8 +199,9 @@ lm_entry:
 	mov rcx, 51200/8 ; Moving quad words so divide by 8.
 	rep movsq
 
-	; Now kernel is at 0x200000
-	jmp 0x200000
+	; Jump to our new address space
+	mov rax, 0xffff800000200000
+	jmp rax
 
 lm_end:
 	hlt
