@@ -12,4 +12,6 @@ void kmain(void)
     // Initialize early stage memory subsystem.
     init_memory();
 
+    printk("Welcome to jOS!\n");
+    ASSERT(0);
 }

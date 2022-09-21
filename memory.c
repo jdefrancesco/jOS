@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <string.h>
 #include <stdbool.h>
 
 #include "memory.h"
@@ -20,7 +21,7 @@ uint64_t page_map;
 extern char end;
 
 // We need to get the available memory from the BIOS
-void init_memory(void) 
+void init_memory(void)
 {
     // Store size of free memory we can use.
     uint64_t total_mem = 0;
@@ -43,8 +44,8 @@ void init_memory(void)
         }
 
         printk("%x  %uKB %u\n", mem_map[i].address, mem_map[i].length/1024, (uint64_t)mem_map[i].type);
-    } 
-    
+    }
+
     for (size_t i = 0; i < free_region_count; i++) {
         // We need vstart and vend to use VA
         uint64_t vstart = P2V(free_mem_region[i].address);
@@ -52,20 +53,20 @@ void init_memory(void)
 
         // We need address of end since its provided by linker script it's not a variable, it's treated as symbol.
         if (vstart > (uint64_t)&end) {
-            free_region(vstart, vend); 
+            free_region(vstart, vend);
         } else if (vend > (uint64_t)&end) {
             free_region((uint64_t)&end, vend);
         }
     }
 
     memory_end = (uint64_t) free_memory.next+PAGE_SIZE;
-    printk("%x\n", memory_end); 
-    
+    printk("%x\n", memory_end);
+
 }
 
 
 // free_region frees a previously allocated memory region.
-static void free_region(uint64_t v, uint64_t e) 
+static void free_region(uint64_t v, uint64_t e)
 {
     for (size_t start = PA_UP(v); start+PAGE_SIZE <= e; start += PAGE_SIZE) {
         if (v+PAGE_SIZE <= MAX_ADDR) {
@@ -75,7 +76,7 @@ static void free_region(uint64_t v, uint64_t e)
 }
 
 // Free memory adding it back to our pool.
-void kfree(uint64_t v) 
+void kfree(uint64_t v)
 {
     ASSERT((v % PAGE_SIZE) == 0);
     ASSERT(v >= (uint64_t)&end);
@@ -98,7 +99,7 @@ void * kalloc(void)
 
         // Remove page from list.
         free_memory.next = page_addr->next;
-    } 
+    }
 
     return (void *)page_addr;
 }

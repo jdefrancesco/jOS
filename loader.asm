@@ -136,7 +136,7 @@ pm_entry:
 
 	; The following is to setup
 	; setup and enable paging...
-	cld 
+	cld
 	mov edi, 0x70000
 	xor eax, eax
 	mov ecx, 0x10000/4
@@ -152,7 +152,7 @@ pm_entry:
 
 	; Obtain nine bit index value
 	mov eax, (0xffff800000000000>>39)
-	and eax, 0x1ff 
+	and eax, 0x1ff
 	mov dword[0x70000+eax*8], 0x72003
 	mov dword[0x72000], 0b10000011
 

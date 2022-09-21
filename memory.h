@@ -2,6 +2,7 @@
 #define _MEMORY_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 struct e820_t {
     uint64_t address;
@@ -32,7 +33,7 @@ typedef PD* PDPTR;
 // Base address where our kernel lives (VA).
 #define KERN_BASE 0xffff800000000000
 // 2 MB Page size.
-#define PAGE_SIZE (2 * 1024 * 1024) 
+#define PAGE_SIZE (2 * 1024 * 1024)
 
 // The next to Macros convert from phys to virt addresses and vice-versa.
 // Need to take care of alignment which is why we shift things around.
@@ -56,4 +57,4 @@ bool map_pages(uint64_t map, uint64_t v, uint64_t e, uint64_t pa, uint32_t attri
 void switch_vm(uint64_t map);
 void init_kvm(void);
 
-#endif 
+#endif
