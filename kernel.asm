@@ -102,7 +102,7 @@ global start
 ; Initialize out GDT
 start:
 	mov rax, gdt_64_ptr
-	lgdt [rax]
+	lgdt [rax] ; Load table with rax
 
 setTss:
 	mov rax, tss
@@ -168,7 +168,7 @@ init_pic:
 		 ; size prefix to retf (0x48) which will let us work with 8 byte operand.
 
 kernel_entry:
-	mov rsp, 0xffff800000200000
+	mov rsp, 0xffff800000200000 ; This is our new kernel stack address. 
 	call kmain
 
 end:

@@ -37,6 +37,7 @@ memmove:
 	add rsi, rdx
 	sub rdi, 1
 	sub rsi, 1
+
 .copy:
 	mov ecx, edx
 	rep movsb

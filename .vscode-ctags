@@ -1,0 +1,304 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ASSERT	debug.h	/^#define ASSERT(/;"	d
+BBLK	debug.h	/^#define BBLK /;"	d
+BBLU	debug.h	/^#define BBLU /;"	d
+BCYN	debug.h	/^#define BCYN /;"	d
+BGRN	debug.h	/^#define BGRN /;"	d
+BHBLK	debug.h	/^#define BHBLK /;"	d
+BHBLU	debug.h	/^#define BHBLU /;"	d
+BHCYN	debug.h	/^#define BHCYN /;"	d
+BHGRN	debug.h	/^#define BHGRN /;"	d
+BHMAG	debug.h	/^#define BHMAG /;"	d
+BHRED	debug.h	/^#define BHRED /;"	d
+BHWHT	debug.h	/^#define BHWHT /;"	d
+BHYEL	debug.h	/^#define BHYEL /;"	d
+BLK	debug.h	/^#define BLK /;"	d
+BLKB	debug.h	/^#define BLKB /;"	d
+BLKHB	debug.h	/^#define BLKHB /;"	d
+BLU	debug.h	/^#define BLU /;"	d
+BLUB	debug.h	/^#define BLUB /;"	d
+BLUHB	debug.h	/^#define BLUHB /;"	d
+BMAG	debug.h	/^#define BMAG /;"	d
+BRED	debug.h	/^#define BRED /;"	d
+BWHT	debug.h	/^#define BWHT /;"	d
+BYEL	debug.h	/^#define BYEL /;"	d
+CYN	debug.h	/^#define CYN /;"	d
+CYNB	debug.h	/^#define CYNB /;"	d
+CYNHB	debug.h	/^#define CYNHB /;"	d
+DEC_DIGITS	print.c	/^#define DEC_DIGITS /;"	d	file:
+DIGITS_BUFF_SIZE	print.h	/^#define DIGITS_BUFF_SIZE /;"	d
+DriveId	boot.asm	/^DriveId:	db 0$/;"	d
+DriveId	loader.asm	/^DriveId: db 0$/;"	d
+GRN	debug.h	/^#define GRN /;"	d
+GRNB	debug.h	/^#define GRNB /;"	d
+GRNHB	debug.h	/^#define GRNHB /;"	d
+HBLK	debug.h	/^#define HBLK /;"	d
+HBLU	debug.h	/^#define HBLU /;"	d
+HCYN	debug.h	/^#define HCYN /;"	d
+HEX_DIGITS	print.c	/^#define HEX_DIGITS /;"	d	file:
+HGRN	debug.h	/^#define HGRN /;"	d
+HMAG	debug.h	/^#define HMAG /;"	d
+HRED	debug.h	/^#define HRED /;"	d
+HWHT	debug.h	/^#define HWHT /;"	d
+HYEL	debug.h	/^#define HYEL /;"	d
+KERN_BASE	memory.h	/^#define KERN_BASE /;"	d
+LINE_SIZE	print.h	/^#define LINE_SIZE /;"	d
+MAG	debug.h	/^#define MAG /;"	d
+MAGB	debug.h	/^#define MAGB /;"	d
+MAGHB	debug.h	/^#define MAGHB /;"	d
+MAX_ADDR	memory.h	/^#define MAX_ADDR /;"	d
+MAX_BUFF_SIZE	print.h	/^#define MAX_BUFF_SIZE /;"	d
+Message	boot.asm	/^Message: db "We have error in boot process.", 0x0a, 0x0$/;"	d
+MessageLen	boot.asm	/^MessageLen: equ $-Message$/;"	d
+NDEBUG	debug.h	/^#define NDEBUG$/;"	d
+P2V	memory.h	/^#define P2V(/;"	d
+PAGE_SIZE	memory.h	/^#define PAGE_SIZE /;"	d
+PA_DOWN	memory.h	/^#define PA_DOWN(/;"	d
+PA_UP	memory.h	/^#define PA_UP(/;"	d
+PD	memory.h	/^typedef PDE* PD;$/;"	t
+PDE	memory.h	/^typedef uint64_t PDE;$/;"	t
+PDPTR	memory.h	/^typedef PD* PDPTR;$/;"	t
+PTE_ENTRY	memory.h	/^#define PTE_ENTRY /;"	d
+PTE_P	memory.h	/^#define PTE_P /;"	d
+PTE_U	memory.h	/^#define PTE_U /;"	d
+PTE_W	memory.h	/^#define PTE_W /;"	d
+RED	debug.h	/^#define RED /;"	d
+REDB	debug.h	/^#define REDB /;"	d
+REDHB	debug.h	/^#define REDHB /;"	d
+RESET	debug.h	/^#define RESET /;"	d
+ReadPacket	boot.asm	/^ReadPacket: times 16 db 0$/;"	l
+ReadPacket	loader.asm	/^ReadPacket: times 16 db 0$/;"	l
+SIRQ	kernel.asm	/^SIRQ:$/;"	l
+Section	kernel.asm	/^Section .data$/;"	l
+Section	kernel.asm	/^Section .text$/;"	l
+Section	klib.asm	/^Section .text$/;"	l
+Section	trap.asm	/^Section .text$/;"	l
+UBLK	debug.h	/^#define UBLK /;"	d
+UBLU	debug.h	/^#define UBLU /;"	d
+UCYN	debug.h	/^#define UCYN /;"	d
+UGRN	debug.h	/^#define UGRN /;"	d
+UMAG	debug.h	/^#define UMAG /;"	d
+URED	debug.h	/^#define URED /;"	d
+UWHT	debug.h	/^#define UWHT /;"	d
+UYEL	debug.h	/^#define UYEL /;"	d
+V2P	memory.h	/^#define V2P(/;"	d
+VECTOR_COUNT	trap.c	/^#define VECTOR_COUNT /;"	d	file:
+WHT	debug.h	/^#define WHT /;"	d
+WHTB	debug.h	/^#define WHTB /;"	d
+WHTHB	debug.h	/^#define WHTHB /;"	d
+YEL	debug.h	/^#define YEL /;"	d
+YELB	debug.h	/^#define YELB /;"	d
+YELHB	debug.h	/^#define YELHB /;"	d
+_DEBUG_H	debug.h	/^#define _DEBUG_H$/;"	d
+_KLIB_H	klib.h	/^#define _KLIB_H$/;"	d
+_MEMORY_H	memory.h	/^#define _MEMORY_H$/;"	d
+_PRINT_H	print.h	/^#define _PRINT_H$/;"	d
+_TRAP_H	trap.h	/^#define _TRAP_H$/;"	d
+_end	boot.asm	/^_end:$/;"	l
+addr	trap.h	/^    uint64_t addr;$/;"	m	struct:idt_ptr
+address	memory.h	/^    uint64_t address;$/;"	m	struct:e820_t
+address	memory.h	/^    uint64_t address;$/;"	m	struct:free_mem_region_t
+attr	trap.h	/^    uint8_t attr;$/;"	m	struct:idt_entry
+buff	print.h	/^    char *buff;$/;"	m	struct:screen_buffer
+check	debug.h	/^#define check(/;"	d
+check_debug	debug.h	/^#define check_debug(/;"	d
+check_mem	debug.h	/^#define check_mem(/;"	d
+clear_errno	debug.h	/^#define clear_errno(/;"	d
+code_32	loader.asm	/^code_32:$/;"	l
+column	print.h	/^    int column;$/;"	m	struct:screen_buffer
+cs	trap.h	/^    int64_t cs;$/;"	m	struct:trap_frame
+data_32	loader.asm	/^data_32:$/;"	l
+dbg_printf	debug.h	/^    #define  dbg_printf(/;"	d
+dec_to_string	print.c	/^static size_t dec_to_string(char *buffer, size_t pos, uint64_t digits)$/;"	f	file:
+e820_t	memory.h	/^struct e820_t {$/;"	s
+eoi	trap.asm	/^eoi:$/;"	l
+error_check	debug.c	/^void error_check(char *file, uint64_t line) $/;"	f
+errorcode	trap.h	/^    int64_t errorcode;$/;"	m	struct:trap_frame
+extern	kernel.asm	/^extern kmain$/;"	l
+extern	trap.asm	/^extern handler$/;"	l
+free_mem_region	memory.c	/^static struct free_mem_region_t free_mem_region[50];$/;"	v	typeref:struct:free_mem_region_t	file:
+free_mem_region_t	memory.h	/^struct free_mem_region_t {$/;"	s
+free_memory	memory.c	/^static struct page_t free_memory;$/;"	v	typeref:struct:page_t	file:
+free_region	memory.c	/^static void free_region(uint64_t v, uint64_t e)$/;"	f	file:
+gdt_32	loader.asm	/^gdt_32:$/;"	l
+gdt_32_len	loader.asm	/^gdt_32_len: equ $-gdt_32$/;"	d
+gdt_32_ptr	loader.asm	/^gdt_32_ptr: dw gdt_32_len-1$/;"	d
+gdt_64	kernel.asm	/^gdt_64:$/;"	l
+gdt_64	loader.asm	/^gdt_64:$/;"	l
+gdt_64_len	kernel.asm	/^gdt_64_len: equ $-gdt_64$/;"	d
+gdt_64_len	loader.asm	/^gdt_64_len: equ $-gdt_64$/;"	d
+gdt_64_ptr	kernel.asm	/^gdt_64_ptr: dw gdt_64_len - 1$/;"	d
+gdt_64_ptr	loader.asm	/^gdt_64_ptr: dw gdt_64_len - 1$/;"	d
+get_mem_done	loader.asm	/^get_mem_done:$/;"	l
+get_mem_info	loader.asm	/^get_mem_info:$/;"	l
+get_mem_info_start	loader.asm	/^get_mem_info_start:$/;"	l
+global	kernel.asm	/^global start$/;"	l
+global	klib.asm	/^global memcmp$/;"	l
+global	klib.asm	/^global memcpy$/;"	l
+global	klib.asm	/^global memmove$/;"	l
+global	klib.asm	/^global memset$/;"	l
+global	trap.asm	/^global eoi$/;"	l
+global	trap.asm	/^global load_idt$/;"	l
+global	trap.asm	/^global read_isr$/;"	l
+global	trap.asm	/^global vector0$/;"	l
+global	trap.asm	/^global vector1$/;"	l
+global	trap.asm	/^global vector10$/;"	l
+global	trap.asm	/^global vector11$/;"	l
+global	trap.asm	/^global vector12$/;"	l
+global	trap.asm	/^global vector13$/;"	l
+global	trap.asm	/^global vector14$/;"	l
+global	trap.asm	/^global vector15$/;"	l
+global	trap.asm	/^global vector16$/;"	l
+global	trap.asm	/^global vector17$/;"	l
+global	trap.asm	/^global vector18$/;"	l
+global	trap.asm	/^global vector19$/;"	l
+global	trap.asm	/^global vector2$/;"	l
+global	trap.asm	/^global vector20$/;"	l
+global	trap.asm	/^global vector21$/;"	l
+global	trap.asm	/^global vector22$/;"	l
+global	trap.asm	/^global vector23$/;"	l
+global	trap.asm	/^global vector24$/;"	l
+global	trap.asm	/^global vector25$/;"	l
+global	trap.asm	/^global vector26$/;"	l
+global	trap.asm	/^global vector27$/;"	l
+global	trap.asm	/^global vector28$/;"	l
+global	trap.asm	/^global vector29$/;"	l
+global	trap.asm	/^global vector3$/;"	l
+global	trap.asm	/^global vector30$/;"	l
+global	trap.asm	/^global vector31$/;"	l
+global	trap.asm	/^global vector32$/;"	l
+global	trap.asm	/^global vector33$/;"	l
+global	trap.asm	/^global vector34$/;"	l
+global	trap.asm	/^global vector35$/;"	l
+global	trap.asm	/^global vector36$/;"	l
+global	trap.asm	/^global vector37$/;"	l
+global	trap.asm	/^global vector38$/;"	l
+global	trap.asm	/^global vector39$/;"	l
+global	trap.asm	/^global vector4$/;"	l
+global	trap.asm	/^global vector5$/;"	l
+global	trap.asm	/^global vector6$/;"	l
+global	trap.asm	/^global vector7$/;"	l
+global	trap.asm	/^global vector8$/;"	l
+global	trap.asm	/^global vector9$/;"	l
+handler	trap.c	/^void handler(struct trap_frame *tf)$/;"	f
+hex_to_string	print.c	/^static int hex_to_string(char *buffer, size_t pos, uint64_t digits)$/;"	f	file:
+high	trap.h	/^    uint32_t high;$/;"	m	struct:idt_entry
+idt	kernel.asm	/^idt: $/;"	l
+idt_32_ptr	loader.asm	/^idt_32_ptr: dw 0$/;"	d
+idt_entry	trap.h	/^struct idt_entry {$/;"	s
+idt_len	kernel.asm	/^idt_len: equ $-idt$/;"	d
+idt_pointer	trap.c	/^static struct idt_ptr idt_pointer;$/;"	v	typeref:struct:idt_ptr	file:
+idt_ptr	kernel.asm	/^idt_ptr: dw idt_len-1$/;"	d
+idt_ptr	trap.h	/^struct idt_ptr {$/;"	s
+init_idt	trap.c	/^void init_idt(void)$/;"	f
+init_idt_entry	trap.c	/^init_idt_entry(struct idt_entry *entry, uint64_t addr, uint8_t attrib)$/;"	f	file:
+init_kvm	memory.c	/^void init_kvm(void)$/;"	f
+init_memory	memory.c	/^void init_memory(void)$/;"	f
+init_pic	kernel.asm	/^init_pic:$/;"	l
+init_pit	kernel.asm	/^init_pit:$/;"	l
+kalloc	memory.c	/^void * kalloc(void)$/;"	f
+kernel_entry	kernel.asm	/^kernel_entry:$/;"	l
+kfree	memory.c	/^void kfree(uint64_t v)$/;"	f
+kmain	main.c	/^void kmain(void)$/;"	f
+length	memory.h	/^    uint64_t length;$/;"	m	struct:e820_t
+length	memory.h	/^    uint64_t length;$/;"	m	struct:free_mem_region_t
+limit	trap.h	/^    uint16_t limit;$/;"	m	struct:idt_ptr
+lm_end	loader.asm	/^lm_end:$/;"	l
+lm_entry	loader.asm	/^lm_entry:$/;"	l
+load_idt	trap.asm	/^load_idt:$/;"	l
+load_kernel	loader.asm	/^load_kernel:$/;"	l
+load_loader	boot.asm	/^load_loader:$/;"	l
+log_err	debug.h	/^#define log_err(/;"	d
+log_info	debug.h	/^#define log_info(/;"	d
+log_warn	debug.h	/^#define log_warn(/;"	d
+low	trap.h	/^    uint16_t low;$/;"	m	struct:idt_entry
+memcmp	klib.asm	/^memcmp:$/;"	l
+memcpy	klib.asm	/^memcpy:$/;"	l
+memmove	klib.asm	/^memmove:$/;"	l
+memory_end	memory.c	/^static uint64_t memory_end;$/;"	v	file:
+memset	klib.asm	/^memset:$/;"	l
+mid	trap.h	/^    uint16_t mid;$/;"	m	struct:idt_entry
+next	memory.h	/^    struct page_t *next;$/;"	m	struct:page_t	typeref:struct:page_t::page_t
+not_supported	boot.asm	/^not_supported:$/;"	l
+not_supported	loader.asm	/^not_supported:$/;"	l
+page_map	memory.c	/^uint64_t page_map;$/;"	v
+page_t	memory.h	/^struct page_t {$/;"	s
+pend	loader.asm	/^pend:$/;"	l
+pm_entry	loader.asm	/^pm_entry:$/;"	l
+printk	print.c	/^int printk(const char *format, ...)$/;"	f
+r10	trap.h	/^    int64_t r10;$/;"	m	struct:trap_frame
+r11	trap.h	/^    int64_t r11;$/;"	m	struct:trap_frame
+r12	trap.h	/^    int64_t r12;$/;"	m	struct:trap_frame
+r13	trap.h	/^    int64_t r13;$/;"	m	struct:trap_frame
+r14	trap.h	/^    int64_t r14;$/;"	m	struct:trap_frame
+r15	trap.h	/^    int64_t r15; \/\/ low addr$/;"	m	struct:trap_frame
+r8	trap.h	/^    int64_t r8;$/;"	m	struct:trap_frame
+r9	trap.h	/^    int64_t r9;$/;"	m	struct:trap_frame
+rax	trap.h	/^    int64_t rax;$/;"	m	struct:trap_frame
+rbp	trap.h	/^    int64_t rbp;$/;"	m	struct:trap_frame
+rbx	trap.h	/^    int64_t rbx;$/;"	m	struct:trap_frame
+rcx	trap.h	/^    int64_t rcx;$/;"	m	struct:trap_frame
+rdi	trap.h	/^    int64_t rdi;$/;"	m	struct:trap_frame
+rdx	trap.h	/^    int64_t rdx;$/;"	m	struct:trap_frame
+read_error	boot.asm	/^read_error:$/;"	l
+read_error	loader.asm	/^read_error:$/;"	l
+read_isr	trap.asm	/^read_isr:$/;"	l
+read_string	print.c	/^static size_t read_string(char *buffer, size_t pos, const char *str)$/;"	f	file:
+res0	trap.h	/^    uint8_t res0;$/;"	m	struct:idt_entry
+res1	trap.h	/^    uint32_t res1;$/;"	m	struct:idt_entry
+rflags	trap.h	/^    int64_t rflags;$/;"	m	struct:trap_frame
+rip	trap.h	/^    int64_t rip;$/;"	m	struct:trap_frame
+row	print.h	/^    int row;$/;"	m	struct:screen_buffer
+rsi	trap.h	/^    int64_t rsi;$/;"	m	struct:trap_frame
+rsp	trap.h	/^    int64_t rsp;$/;"	m	struct:trap_frame
+sb	print.c	/^static struct screen_buffer sb = {(char *)0xb8000, 0, 0};$/;"	v	typeref:struct:screen_buffer	file:
+screen_buffer	print.h	/^struct screen_buffer {$/;"	s
+selector	trap.h	/^    uint16_t selector;$/;"	m	struct:idt_entry
+sentinel	debug.h	/^#define sentinel(/;"	d
+setTss	kernel.asm	/^setTss:$/;"	l
+set_a20_line_done	loader.asm	/^set_a20_line_done:$/;"	l
+set_vid_mode	loader.asm	/^set_vid_mode:$/;"	l
+setup_kvm	memory.c	/^static void setup_kvm(void)$/;"	f	file:
+ss	trap.h	/^    int64_t ss; \/\/ high addr$/;"	m	struct:trap_frame
+start	boot.asm	/^start:$/;"	l
+start	kernel.asm	/^start:$/;"	l
+start	loader.asm	/^start:$/;"	l
+test_a20	loader.asm	/^test_a20:$/;"	l
+test_disk_extension	boot.asm	/^test_disk_extension:$/;"	l
+timer	kernel.asm	/^timer:$/;"	l
+times	boot.asm	/^times (0x1be-($-$$)) db 0$/;"	l
+trap	trap.asm	/^trap:$/;"	l
+trap_frame	trap.h	/^struct trap_frame {$/;"	s
+trapno	trap.h	/^    int64_t trapno;$/;"	m	struct:trap_frame
+tss	kernel.asm	/^tss:$/;"	l
+tss_desc	kernel.asm	/^tss_desc:$/;"	l
+tss_len	kernel.asm	/^tss_len: equ $-tss$/;"	d
+type	memory.h	/^    uint32_t type;$/;"	m	struct:e820_t
+udec_to_string	print.c	/^static size_t udec_to_string(char *buffer, size_t pos, uint64_t digits)$/;"	f	file:
+vector0	trap.asm	/^vector0:$/;"	l
+vector1	trap.asm	/^vector1:$/;"	l
+vector10	trap.asm	/^vector10:$/;"	l
+vector11	trap.asm	/^vector11:$/;"	l
+vector12	trap.asm	/^vector12:$/;"	l
+vector13	trap.asm	/^vector13:$/;"	l
+vector14	trap.asm	/^vector14:$/;"	l
+vector16	trap.asm	/^vector16:$/;"	l
+vector17	trap.asm	/^vector17:$/;"	l
+vector18	trap.asm	/^vector18:$/;"	l
+vector19	trap.asm	/^vector19:$/;"	l
+vector2	trap.asm	/^vector2:$/;"	l
+vector3	trap.asm	/^vector3:$/;"	l
+vector32	trap.asm	/^vector32:$/;"	l
+vector39	trap.asm	/^vector39:$/;"	l
+vector4	trap.asm	/^vector4:$/;"	l
+vector5	trap.asm	/^vector5:$/;"	l
+vector6	trap.asm	/^vector6:$/;"	l
+vector7	trap.asm	/^vector7:$/;"	l
+vector8	trap.asm	/^vector8:$/;"	l
+vectors	trap.c	/^static struct idt_entry vectors[VECTOR_COUNT];$/;"	v	typeref:struct:idt_entry	file:
+write_screen	print.c	/^static void write_screen(const char *buffer,$/;"	f	file:

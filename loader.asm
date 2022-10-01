@@ -137,19 +137,25 @@ pm_entry:
 	; The following is to setup
 	; setup and enable paging...
 	cld
-	mov edi, 0x70000
+	mov edi, 0x70000 ; That is PML4 address.
 	xor eax, eax
 	mov ecx, 0x10000/4
 	rep stosd
 
 	; mov dword[0x80000], 0x81007
 	; mov dword[0x81000], 0b10000111
+	
+	; Initial PageTable:
+	; ==========================
+	; When we boot, our code so far lives at 0x200000. We want to remap the kernel, and place it
+	; at 0xffff800000200000. This mean, we have two mappings to 1GiB Physical Page. With 
+	; 0x2000000 --> 1GiB Phys. Page and 0xffff800000200000 --> 1GiB (the same 1Gig page.)
 
 	; The lower set bits are attributes we need to assign for PML4. (RING0)
 	mov dword[0x70000], 0x71003 ; 0b0...000(011) (Last three bits are UWP attributes.)
 	; PDPE
 	mov dword[0x71000], 0b10000011 ; bit 7 is one indicating this is a 1GB page translation.
-
+	
 	; Obtain nine bit index value
 	mov eax, (0xffff800000000000>>39)
 	and eax, 0x1ff
@@ -199,7 +205,7 @@ lm_entry:
 	mov rcx, 51200/8 ; Moving quad words so divide by 8.
 	rep movsq
 
-	; Jump to our new address space
+	; Jump to our new address space!
 	mov rax, 0xffff800000200000
 	jmp rax
 

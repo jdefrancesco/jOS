@@ -8,9 +8,10 @@ void kmain(void)
 {
     // Initialize IDT.
     init_idt();
-
     // Initialize early stage memory subsystem.
     init_memory();
+    // Initialize Virt. Memory.
+    init_kvm();
 
     printk("Welcome to jOS!\n");
     ASSERT(0);

@@ -10,10 +10,10 @@
 
 #include "print.h"
 #include "klib.h"
-
+#include "memory.h"
 
 // the row, col = 0, 0
-static struct screen_buffer sb = {(char *)0xb8000, 0, 0};
+static struct screen_buffer sb = {(char *)P2V(0xb8000), 0, 0};
 
 #define DEC_DIGITS "0123456789"
 #define HEX_DIGITS "0123456789ABCDEF"

@@ -86,6 +86,7 @@ global vector39
 global eoi
 global read_isr
 global load_idt
+global load_cr3
 
 trap:
 	push_all_regs
@@ -211,4 +212,10 @@ read_isr:
 ; argument is in rdi
 load_idt:
 	lidt [rdi]
+	ret
+
+; Load CR3 register with phys addr of PML4
+load_cr3:
+	mov rax, rdi
+	mov cr3, rax
 	ret
