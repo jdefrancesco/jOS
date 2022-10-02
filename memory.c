@@ -7,6 +7,22 @@
 #include "print.h"
 #include "debug.h"
 
+/* 
+ *  Virtual Memory Layout
+ * [============]  
+ * [            ]
+ * [            ]
+ * [KERNEL SPACE] 0xFFFF800000000000
+ * [------------]
+ * [ Non-Canon  ]                       Our kernel lives here initially, and then is remapped
+ * [            ]                       to HIGH_MEM at VA shown in diagram to left. Note
+ * [            ]                       our kernel is using 2MiB pages which it has stored in a list.
+ * [------------]                       [==============]
+ * [            ]                       [ Phys. Mem 1GB]
+ * [ USER SPACE ]                       [              ]
+ * [============]                       [==============]
+ */
+
 // Free a memory region.
 static void free_region(uint64_t v, uint64_t e);
 
@@ -16,15 +32,13 @@ static uint64_t memory_end;
 uint64_t page_map;
 extern char end;
 
-// We need to get the available memory from the BIOS
+// We need to get the available memory map from the BIOS
 void init_memory(void)
 {
     // Store size of free memory we can use.
     uint64_t total_mem = 0;
-
     int32_t count  = *(int32_t *)0x9000;
     struct e820_t *mem_map =  (struct e820_t *)0x9008;
-
     // Store count of free memory regions.
     int free_region_count = 0;
 
@@ -42,7 +56,7 @@ void init_memory(void)
         printk("%x  %uKB %u\n", mem_map[i].address, mem_map[i].length/1024, (uint64_t)mem_map[i].type);
     }
 
-    for (size_t i = 0; i < free_region_count; i++) {
+    for (int32_t i = 0; i < free_region_count; i++) {
         // We need vstart and vend to use VA
         uint64_t vstart = P2V(free_mem_region[i].address);
         uint64_t vend = vstart + free_mem_region[i].length;
@@ -55,8 +69,9 @@ void init_memory(void)
         }
     }
 
+    printk("Total memory = %uMB\n", total_mem/1024/1024);
     memory_end = (uint64_t) free_memory.next+PAGE_SIZE;
-    printk("%x\n", memory_end);
+    printk("Memory end = %x\n", memory_end);
 
 }
 
@@ -64,13 +79,12 @@ void init_memory(void)
 // free_region frees a previously allocated memory region.
 static void free_region(uint64_t v, uint64_t e)
 {
-    for (size_t start = PA_UP(v); start+PAGE_SIZE <= e; start += PAGE_SIZE) {
+    for (uint64_t start = PA_UP(v); start+PAGE_SIZE <= e; start += PAGE_SIZE) {
         if (start+PAGE_SIZE <= MAX_ADDR) {
             kfree(start);
         }
     }
 }
-
 
 
 // Free memory adding it back to our pool.
@@ -88,6 +102,7 @@ void kfree(uint64_t v)
     free_memory.next = page_addr;
 }
 
+
 // Allocate memory from our free memory region pool.
 void * kalloc(void)
 {
@@ -100,14 +115,12 @@ void * kalloc(void)
         free_memory.next = page_addr->next;
     }
 
-    printk("page_addr = %x", page_addr);
     return page_addr;
 }
 
 
 
-
-/*
+/* find_pml4t_entry()
  *
  */
 static PDPTR 
@@ -131,8 +144,7 @@ find_pml4t_entry(uint64_t map, uint64_t v, int alloc, uint32_t attribute)
 
 }
 
-/*
- *
+/* find_pdpt_entry 
  *
  */
 static PD 
@@ -158,6 +170,7 @@ find_pdpt_entry(uint64_t map, uint64_t v, int alloc, uint32_t attribute)
     return pd;
 }
 
+// Map pages creates page table for the kernel.
 bool map_pages(uint64_t map, 
     uint64_t v, 
     uint64_t e, 
@@ -169,7 +182,9 @@ bool map_pages(uint64_t map,
     PD pd = NULL;
     unsigned int index;
 
+    // Make sure we are within bounds.
     ASSERT(v < e);
+    // Make sure we are page aligned.
     ASSERT(pa % PAGE_SIZE == 0);
     ASSERT(pa + vend - vstart <= 1024 * 1024 * 1024);
 
@@ -200,7 +215,7 @@ void switch_vm(uint64_t map)
 // Function used to remap our kernel using 2MiB pages.
 static void setup_kvm(void)
 {
-    // This page is the new PML4 table.
+    // This page (page_map) is the new PML4 table.
     page_map = (uint64_t) kalloc();
     ASSERT(page_map != 0);
 
@@ -214,7 +229,7 @@ void init_kvm(void)
 {
     // Remap kernel
     setup_kvm();
-    // Set CR3
+    // Set CR3 with new mapping.
     switch_vm(page_map);
-    printk("Memory Manager initialized...");
+    printk("Memory Manager initialized...\n");
 }

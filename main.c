@@ -14,5 +14,6 @@ void kmain(void)
     init_kvm();
 
     printk("Welcome to jOS!\n");
-    ASSERT(0);
+
+    for (;;) { }
 }

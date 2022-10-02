@@ -3,7 +3,7 @@
 
 %define GREEN 0xa
 
-;==============Memory Map=======================
+;==============Memory Map E820 =======================
 ;
 ; [ Free_3   	      ] - (0x100000 and up)
 ; [ Reserved  		  ] - (0x80000 - (Free_3-1))
@@ -14,13 +14,6 @@
 ; [ Free_1            ]
 ; [ BIOS Data/Vectors ] (0 - (Free_1-1))
 ;
-;===============================================
-
-;===============================================
-; Memory Map Struct.
-; 0 - base address
-; 8 - length
-; 16 - type
 ;===============================================
 
 
@@ -74,7 +67,7 @@ get_mem_info:
 	mov edx, 0x534d4150
 	mov ecx, 20
 	int 0x15
-	jnc get_mem_done ; end of block
+	jnc get_mem_info ; end of block
 
 
 get_mem_done:
@@ -128,11 +121,6 @@ pm_entry:
 	mov ss, ax
 	mov esp, 0x7c00
 
-	; cld
-	; mov edi, 0x80000
-	; xor eax, eax
-	; mov ecx, 0x10000/4
-	; rep stosd
 
 	; The following is to setup
 	; setup and enable paging...
@@ -238,6 +226,7 @@ gdt_32_len: equ $-gdt_32
 gdt_32_ptr: dw gdt_32_len-1
 			dd gdt_32
 idt_32_ptr: dw 0
+			dd 0
 
 
 gdt_64:

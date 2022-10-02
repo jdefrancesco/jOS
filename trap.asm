@@ -91,8 +91,8 @@ global load_cr3
 trap:
 	push_all_regs
 
-	inc byte[0xb8010]
-	mov byte[0xb8011], 0xe
+	; inc byte[0xb8010]
+	; mov byte[0xb8011], 0xe
 
 	mov rdi, rsp
 	call handler

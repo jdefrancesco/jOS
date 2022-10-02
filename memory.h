@@ -30,7 +30,7 @@ typedef PD* PDPTR;
 #define PTE_P 1
 // Page is writable
 #define PTE_W 2
-// Page is accessible from user mode.
+// Page is accessible from user mode (Ring3)
 #define PTE_U 4
 
 #define PTE_ENTRY 0x80
