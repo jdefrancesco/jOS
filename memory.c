@@ -25,14 +25,16 @@
 
 // Free a memory region.
 static void free_region(uint64_t v, uint64_t e);
+static PD find_pdpt_entry(uint64_t map, uint64_t v, int alloc, uint32_t attribute);
 
 static struct free_mem_region_t free_mem_region[50];
 static struct page_t free_memory;
 static uint64_t memory_end;
-uint64_t page_map;
+
 extern char end;
 
 // We need to get the available memory map from the BIOS
+// We will break up kernel into 2MB phys pages.
 void init_memory(void)
 {
     // Store size of free memory we can use.
@@ -84,6 +86,29 @@ static void free_region(uint64_t v, uint64_t e)
             kfree(start);
         }
     }
+}
+
+void free_pages(uint64_t map, uint64_t vstart, uint64_t vend)
+{
+    unsigned int index = 0;
+
+    ASSERT((vstart % PAGE_SIZE) == 0);
+    ASSERT((vend % PAGE_SIZE) == 0);
+
+    do {
+        PD pd = find_pdpt_entry(map, vstart, 0, 0);
+
+        if (pd != NULL) {
+            index = (vstart >> 21) & 0x1FF;
+            // Page should be in memory.
+            if (pd[index] & PTE_P) {
+                kfree(P2V(PTE_ADDR(pd[index])));
+                pd[index] = 0;
+            }
+        }
+
+        vstart += PAGE_SIZE;
+    } while ((vstart+PAGE_SIZE) <= vend);
 }
 
 
@@ -213,23 +238,92 @@ void switch_vm(uint64_t map)
 }
 
 // Function used to remap our kernel using 2MiB pages.
-static void setup_kvm(void)
+uint64_t setup_kvm(void)
 {
     // This page (page_map) is the new PML4 table.
-    page_map = (uint64_t) kalloc();
-    ASSERT(page_map != 0);
+    uint64_t page_map = (uint64_t) kalloc();
 
-    memset((void*)page_map, 0x00, PAGE_SIZE);
-    bool status = map_pages(page_map, KERN_BASE, memory_end, V2P(KERN_BASE), PTE_P|PTE_W);
-    ASSERT(status == true);
+    if (page_map != 0) {
+        memset((void*)page_map, 0x00, PAGE_SIZE);
+        if (!map_pages(page_map, KERN_BASE, memory_end, V2P(KERN_BASE), PTE_P|PTE_W)) {
+            free_vm(page_map);
+            page_map = 0;
+        }
+    }
+    return page_map;
 }
 
 
 void init_kvm(void)
 {
     // Remap kernel
-    setup_kvm();
+    uint64_t page_map = setup_kvm();
+    ASSERT(page_map != 0);
     // Set CR3 with new mapping.
     switch_vm(page_map);
     printk("Memory Manager initialized...\n");
+}
+
+// Build user VM space.
+bool setup_uvm(uint64_t map, uint64_t start, int size)
+{
+    bool status = false;
+    void *page = kalloc();
+
+    if (page != NULL) {
+        memset(page, 0x00, PAGE_SIZE);
+        // For now each process gets one 2MB page.
+        map_pages(map, 0x400000, 0x4000000+PAGE_SIZE, V2P(page), PTE_P|PTE_W|PTE_U);
+        if (status == true) {
+            memcpy(page, (void* )start, size);
+        } else {
+            kfree((uint64_t)page);
+            free_vm(map);
+        }
+    }
+    return status;
+}
+
+// Free PDT
+static void free_pdt(uint64_t map)
+{
+    const uint64_t kPageDirSize = 512;
+    PDPTR *map_entry = (PDPTR*)map;
+    for (size_t i; i < kPageDirSize; i++) {
+        if ((uint64_t) map_entry[i] & PTE_P) {
+            PD *pdptr = (PD*) P2V(PDE_ADDR(map_entry[i]));
+
+            for (size_t j = 0; j < kPageDirSize; j++) {
+                if ((uint64_t)pdptr[i] & PTE_P) {
+                    kfree(P2V(PDE_ADDR(pdptr[j])));
+                    pdptr[j] = 0;
+                }
+            }
+        }
+    }
+}
+
+static void free_pdpt(uint64_t map)
+{
+    PDPTR *map_entry = (PDPTR*) map;
+
+    for (size_t i = 0; i < 512; i++) {
+        if ((uint64_t) map_entry[i] & PTE_P) {
+            kfree(P2V(PDE_ADDR(map_entry[i])));
+            map_entry[i] = 0;
+        }
+    }
+}
+
+static void free_pml4t(uint64_t map) 
+{
+    kfree(map);
+}
+
+void free_vm(uint64_t map) 
+{
+    free_pages(map, 0x400000, 0x400000+PAGE_SIZE);
+    free_pdt(map);
+    free_pdpt(map);
+    free_pml4t(map);
 }

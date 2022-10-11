@@ -13,6 +13,7 @@
 #include "memory.h"
 
 // the row, col = 0, 0
+// NOTE: AFTER we turn on memory manager, we need to use the Virtual Address of 0xb8000
 static struct screen_buffer sb = {(char *)P2V(0xb8000), 0, 0};
 
 #define DEC_DIGITS "0123456789"
