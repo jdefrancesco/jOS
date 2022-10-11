@@ -18,7 +18,7 @@ struct idt_ptr {
     uint64_t addr;
 } __attribute__((packed));
 
-struct trap_frame {
+struct trap_frame_t {
     int64_t r15; // low addr
     int64_t r14;
     int64_t r13;
@@ -70,5 +70,6 @@ void init_idt(void);
 void eoi(void);
 void load_idt(struct idt_ptr *ptr);
 uint8_t read_isr(void);
+uint64_t read_cr2(void);
 
 #endif

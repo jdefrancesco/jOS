@@ -1,4 +1,5 @@
 #include "trap.h"
+#include "print.h"
 
 #define VECTOR_COUNT 256
 static struct idt_ptr idt_pointer;
@@ -45,7 +46,7 @@ void init_idt(void)
 }
 
 // Handler of interrupts
-void handler(struct trap_frame *tf)
+void handler(struct trap_frame_t *tf)
 {
     unsigned char isr_value;
     switch (tf->trapno) {
@@ -63,6 +64,12 @@ void handler(struct trap_frame *tf)
             break;
 
         default:
+            printk("[Errno %d at ring-%d] %d:%x %x", 
+                    tf->trapno, 
+                    (tf->cs & 3), // Give us current priv. level
+                    tf->errorcode,
+                    read_cr2(), // VA causing exception (which was used for bad access), is in CR2
+                    tf->rip);
             while (1) { }
     }
 }

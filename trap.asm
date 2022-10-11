@@ -87,6 +87,9 @@ global eoi
 global read_isr
 global load_idt
 global load_cr3
+global trap_return
+global read_cr2
+global pstart
 
 trap:
 	push_all_regs
@@ -97,7 +100,7 @@ trap:
 	mov rdi, rsp
 	call handler
 
-.trap_return:
+trap_return:
 	pop_all_regs
 
 	add rsp, 16
@@ -219,3 +222,11 @@ load_cr3:
 	mov rax, rdi
 	mov cr3, rax
 	ret
+
+read_cr2:
+	mov rax, cr2 
+	ret 
+
+pstart:
+	mov rsp, rdi
+	jmp trap_return

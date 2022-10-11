@@ -41,8 +41,8 @@ typedef PD* PDPTR;
 
 // The next to Macros convert from phys to virt addresses and vice-versa.
 // Need to take care of alignment which is why we shift things around.
-#define PA_UP(v) ((((uint64_t)v + PAGE_SIZE-1) >> 21 ) << 21)
-#define PA_DOWN(v) (((uint64_t)v >> 21) << 21)
+#define PA_UP(v) ((((uint64_t) (v) + PAGE_SIZE-1) >> 21 ) << 21)
+#define PA_DOWN(v) (((uint64_t) (v) >> 21) << 21)
 
 // Convert kernel virtual address Macros.
 #define P2V(p) ((uint64_t) (p) + KERN_BASE)

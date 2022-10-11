@@ -211,7 +211,7 @@ bool map_pages(uint64_t map,
     ASSERT(v < e);
     // Make sure we are page aligned.
     ASSERT(pa % PAGE_SIZE == 0);
-    ASSERT(pa + vend - vstart <= 1024 * 1024 * 1024);
+    ASSERT((pa+vend-vstart) <= (1024 * 1024 * 1024));
 
     do {
         pd = find_pdpt_entry(map, vstart, 1, attribute);
@@ -273,7 +273,7 @@ bool setup_uvm(uint64_t map, uint64_t start, int size)
     if (page != NULL) {
         memset(page, 0x00, PAGE_SIZE);
         // For now each process gets one 2MB page.
-        map_pages(map, 0x400000, 0x4000000+PAGE_SIZE, V2P(page), PTE_P|PTE_W|PTE_U);
+        status = map_pages(map, 0x400000, 0x400000+PAGE_SIZE, V2P(page), PTE_P|PTE_W|PTE_U);
         if (status == true) {
             memcpy(page, (void* )start, size);
         } else {
@@ -289,7 +289,7 @@ static void free_pdt(uint64_t map)
 {
     const uint64_t kPageDirSize = 512;
     PDPTR *map_entry = (PDPTR*)map;
-    for (size_t i; i < kPageDirSize; i++) {
+    for (size_t i = 0; i < kPageDirSize; i++) {
         if ((uint64_t) map_entry[i] & PTE_P) {
             PD *pdptr = (PD*) P2V(PDE_ADDR(map_entry[i]));
 

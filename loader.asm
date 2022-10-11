@@ -130,8 +130,6 @@ pm_entry:
 	mov ecx, 0x10000/4
 	rep stosd
 
-	; mov dword[0x80000], 0x81007
-	; mov dword[0x81000], 0b10000111
 	
 	; Initial PageTable:
 	; ==========================

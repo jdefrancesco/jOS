@@ -4,6 +4,7 @@
 #include "print.h"
 #include "debug.h"
 #include "memory.h"
+#include "process.h"
 
 void kmain(void)
 {
@@ -15,6 +16,10 @@ void kmain(void)
     init_kvm();
 
     printk("Welcome to jOS!\n");
+
+    init_process();
+    launch();
+
 
     for (;;) { }
 }

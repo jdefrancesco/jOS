@@ -42,6 +42,8 @@
 
 Section .data
 
+global tss
+
 gdt_64:
 	dq 0
 	dq 0x0020980000000000
@@ -66,6 +68,7 @@ tss_desc:
 gdt_64_len: equ $-gdt_64
 gdt_64_ptr: dw gdt_64_len - 1
 			dq gdt_64
+
 tss:
 	dd 0
 	dq 0xffff800000190000
