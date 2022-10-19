@@ -1,0 +1,18 @@
+Section .text 
+
+global writeu
+
+;int writeu(char *buff (rdi), int buffer_size (rsi));
+writeu: 
+    sub rsp, 16
+    xor eax, eax
+
+    mov [rsp], rdi
+    mov [rsp+8], rsi
+
+    mov rdi, 2
+    mov rsi, rsp
+    int 0x80
+
+    add rsp, 16
+    ret

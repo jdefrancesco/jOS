@@ -10,7 +10,6 @@
 extern struct tss_t tss; 
 static struct process_t process_table[NUM_PROC];
 static int pid_num = 1;
-void main(void);
 
 static void set_tss(struct process_t *proc)
 {
@@ -57,7 +56,9 @@ static void set_process_entry(struct process_t *proc)
     // New kvm for this process.
     proc->page_map = setup_kvm();
     ASSERT(proc->page_map != 0);
-    ASSERT(setup_uvm(proc->page_map, (uint64_t)main, PAGE_SIZE));
+    // Going to load our user.bin main.
+    ASSERT(setup_uvm(proc->page_map, (uint64_t)P2V(0x20000), 5120));
+    
 }
 
 void init_process(void)

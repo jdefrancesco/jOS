@@ -14,10 +14,11 @@
 
 // the row, col = 0, 0
 // NOTE: AFTER we turn on memory manager, we need to use the Virtual Address of 0xb8000
-static struct screen_buffer sb = {(char *)P2V(0xb8000), 0, 0};
+static struct screen_buffer screen_buffer = {(char *)P2V(0xb8000), 0, 0};
 
 #define DEC_DIGITS "0123456789"
 #define HEX_DIGITS "0123456789ABCDEF"
+
 
 
 // Unsigned decimal to string formatting function.
@@ -95,11 +96,9 @@ static int hex_to_string(char *buffer, size_t pos, uint64_t digits)
 // write_to_screen prints data to output. Crude page scrolling
 // is also implemented; we can improve it in the future if 
 // need be.
-static void write_screen(const char *buffer,
-        size_t size,
-        struct screen_buffer *sb,
-        char color)
+void write_screen(const char *buffer, size_t size, char color)
 {
+    struct screen_buffer *sb = &screen_buffer;
     int column = sb->column;
     int row = sb->row;
 
@@ -176,7 +175,7 @@ int printk(const char *format, ...)
     }
 
     // 0xf -- print in white
-    write_screen(buffer, buff_size, &sb, 0xf);
+    // write_screen(buffer, buff_size, &screen_buffer, 0xf);
     va_end(args);
 
     return buff_size;

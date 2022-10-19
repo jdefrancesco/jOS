@@ -1,5 +1,6 @@
 #include "trap.h"
 #include "print.h"
+#include "syscall.h"
 
 #define VECTOR_COUNT 256
 static struct idt_ptr idt_pointer;
@@ -38,6 +39,8 @@ void init_idt(void)
     init_idt_entry(&vectors[19], (uint64_t) vector19, 0x8e);
     init_idt_entry(&vectors[32], (uint64_t) vector32, 0x8e);
     init_idt_entry(&vectors[39], (uint64_t) vector39, 0x8e);
+    // Our syscall. Attribute is EE, DPL = 3, not 0
+    init_idt_entry(&vectors[0x80], (uint64_t)sysint, 0xee);
 
     idt_pointer.limit = sizeof(vectors) - 1;
     idt_pointer.addr = (uint64_t) vectors;
@@ -62,6 +65,12 @@ void handler(struct trap_frame_t *tf)
                 eoi();
             }
             break;
+
+        // Our syscall handling.
+        case 0x80: {
+            system_call(tf);
+            break;
+        }
 
         default:
             printk("[Errno %d at ring-%d] %d:%x %x", 

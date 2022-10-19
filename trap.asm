@@ -90,6 +90,7 @@ global load_cr3
 global trap_return
 global read_cr2
 global pstart
+global sysint
 
 trap:
 	push_all_regs
@@ -199,6 +200,12 @@ vector32:
 vector39:
 	push 0
 	push 39
+	jmp trap
+
+
+sysint:
+	push 0
+	push 0x80
 	jmp trap
 
 eoi:
