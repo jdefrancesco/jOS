@@ -61,7 +61,7 @@ static void set_process_entry(struct process_t *proc, uint64_t addr)
     memset((void*)proc->stack, 0, PAGE_SIZE);   
     stack_top = proc->stack + STACK_SIZE; // Top of stack, grows downward.
 
-    proc->context = stack_top - sizeof(struct trap_frame_t) - (7 * 8);
+    proc->context = stack_top - sizeof(struct trap_frame_t) - 7*8;
     // Add 48 to RSP
     *(uint64_t *)(proc->context + 6*8) = (uint64_t) trap_return;
 
@@ -79,7 +79,7 @@ static void set_process_entry(struct process_t *proc, uint64_t addr)
     proc->page_map = setup_kvm();
     ASSERT(proc->page_map != 0);
     // Going to load our user.bin main.
-    ASSERT(setup_uvm(proc->page_map, (uint64_t)P2V(0x20000), 5120));
+    ASSERT(setup_uvm(proc->page_map, P2V(addr), 5120));
     proc->state = PROC_READY;
     
 }
@@ -115,6 +115,7 @@ void init_process(void)
     
     process_control = get_pc();
     list = &process_control->ready_list;
+    printk("%x\n", process_control);
 
     for (size_t i = 0; i < 2; i++) {
         process = find_unused_process();
@@ -162,11 +163,4 @@ void yield(void)
     process->state = PROC_READY;
     append_list_tail(list, (struct list_t *)process);
     schedule();
-}
-
-// A simple test programm to run in ring3
-void main(void)
-{
-    char *p = (char*)0xffff800000200020;
-    *p = 1;
 }

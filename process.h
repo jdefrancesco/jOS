@@ -5,7 +5,7 @@
 #include "klib.h"
 
 struct process_t  {
-    struct list *next;
+    struct list_t *next;
     int pid;
     int state;
     uint64_t context;

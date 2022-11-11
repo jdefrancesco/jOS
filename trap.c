@@ -75,12 +75,12 @@ void handler(struct trap_frame_t *tf)
         }
 
         default:
-            printk("[Errno %d at ring-%d] %d:%x %x", 
-                    tf->trapno, 
-                    (tf->cs & 3), // Give us current priv. level
-                    tf->errorcode,
-                    read_cr2(), // VA causing exception (which was used for bad access), is in CR2
-                    tf->rip);
+            // printk("[Errno %d at ring-%d] %d:%x %x", 
+            //         tf->trapno, 
+            //         (tf->cs & 3), // Give us current priv. level
+            //         tf->errorcode,
+            //         read_cr2(), // VA causing exception (which was used for bad access), is in CR2
+            //         tf->rip);
             while (1) { }
     }
 
