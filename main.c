@@ -15,6 +15,7 @@ void kmain(void)
     init_memory();
     // Initialize Virt. Memory.
     init_kvm();
+    printk("HELLO");
     // Initialize our system call interface.
     init_system_call();
     init_process();
