@@ -1,6 +1,7 @@
 #include "trap.h"
 #include "print.h"
 #include "syscall.h"
+#include "process.h"
 
 #define VECTOR_COUNT 256
 static struct idt_ptr idt_pointer;
@@ -39,6 +40,7 @@ void init_idt(void)
     init_idt_entry(&vectors[19], (uint64_t) vector19, 0x8e);
     init_idt_entry(&vectors[32], (uint64_t) vector32, 0x8e);
     init_idt_entry(&vectors[39], (uint64_t) vector39, 0x8e);
+
     // Our syscall. Attribute is EE, DPL = 3, not 0
     init_idt_entry(&vectors[0x80], (uint64_t)sysint, 0xee);
 
@@ -80,5 +82,10 @@ void handler(struct trap_frame_t *tf)
                     read_cr2(), // VA causing exception (which was used for bad access), is in CR2
                     tf->rip);
             while (1) { }
+    }
+
+    // Current process yields and runs another process.
+    if (tf->trapno == 32) {
+        yield();
     }
 }

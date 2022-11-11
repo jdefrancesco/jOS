@@ -72,6 +72,7 @@ void init_memory(void)
     }
 
     printk("Total memory = %uMB\n", total_mem/1024/1024);
+    // end variable from our linker script.
     memory_end = (uint64_t) free_memory.next+PAGE_SIZE;
     printk("Memory end = %x\n", memory_end);
 
@@ -238,6 +239,7 @@ void switch_vm(uint64_t map)
 }
 
 // Function used to remap our kernel using 2MiB pages.
+// NOTE: We obtain new page tables with kalloc()
 uint64_t setup_kvm(void)
 {
     // This page (page_map) is the new PML4 table.

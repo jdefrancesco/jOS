@@ -15,15 +15,8 @@ void kmain(void)
     init_memory();
     // Initialize Virt. Memory.
     init_kvm();
-
-    printk("Welcome to jOS!\n");
-
     // Initialize our system call interface.
     init_system_call();
-
     init_process();
     launch();
-
-
-    for (;;) { }
 }

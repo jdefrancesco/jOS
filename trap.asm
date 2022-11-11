@@ -91,6 +91,7 @@ global trap_return
 global read_cr2
 global pstart
 global sysint
+global swap
 
 trap:
 	push_all_regs
@@ -237,3 +238,24 @@ read_cr2:
 pstart:
 	mov rsp, rdi
 	jmp trap_return
+
+
+swap:
+	push rbx 
+	push rbp
+	push r12
+	push r13
+	push r14
+	push r15
+
+	mov [rdi], rsp ; Address of context field in process
+	mov rsp, rsi ; context 	val in next proc
+
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+	pop rbp
+	pop rbx
+
+	ret

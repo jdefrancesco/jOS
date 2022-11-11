@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+// Memory map provided to us by BIOS/EFI. 
 struct e820_t {
     uint64_t address;
     uint64_t length;
@@ -34,7 +35,7 @@ typedef PD* PDPTR;
 #define PTE_U 4
 
 #define PTE_ENTRY 0x80
-// Base address where our kernel lives (VA).
+// Base address where our kernel will be after we get to HIGH MEM (VA).
 #define KERN_BASE 0xffff800000000000
 // 2 MB Page size.
 #define PAGE_SIZE (2 * 1024 * 1024)
@@ -44,7 +45,7 @@ typedef PD* PDPTR;
 #define PA_UP(v) ((((uint64_t) (v) + PAGE_SIZE-1) >> 21 ) << 21)
 #define PA_DOWN(v) (((uint64_t) (v) >> 21) << 21)
 
-// Convert kernel virtual address Macros.
+// Convert kernel virtual (linear is more accurate) address Macros.
 #define P2V(p) ((uint64_t) (p) + KERN_BASE)
 #define V2P(v) ((uint64_t) (v) - KERN_BASE)
 
@@ -56,9 +57,11 @@ typedef PD* PDPTR;
 // Kernel has 1GB VMA. This represents the end of that address space.
 #define MAX_ADDR 0xffff800040000000
 
-/*
+/* ******************************
  * Function Prototypes..
+ * ******************************
  */
+
 void init_memory(void);
 void * kalloc(void);
 void kfree(uint64_t v);

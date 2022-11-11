@@ -2,15 +2,24 @@
 #define _PROCESS_H_
 
 #include "trap.h"
+#include "klib.h"
 
 struct process_t  {
+    struct list *next;
     int pid;
     int state;
+    uint64_t context;
     // PML4
     uint64_t page_map;
     // Kernel stack
     uint64_t stack;
     struct trap_frame_t *tf;
+};
+
+
+struct process_control_t {
+    struct process_t *curr_process;
+    struct head_list_t ready_list;
 };
 
 struct tss_t {
@@ -36,9 +45,12 @@ struct tss_t {
 #define NUM_PROC 10
 #define PROC_UNUSED 0
 #define PROC_INIT 1
+#define PROC_RUNNING 2
+#define PROC_READY 3
 
 void init_process(void);
 void launch(void);
 void pstart(struct trap_frame_t *tf);
-
+void yield(void);
+void swap(uint64_t *prev, uint64_t next);
 #endif
