@@ -2,9 +2,9 @@
 
 int main(void) 
 {
-    int counter = 0;
+    unsigned int counter = 0;
     for(;;) {
-        if ((counter % 1000) == 0) {
+        if ((counter % 100000) == 0) {
             printf("process1 %d\n", counter);
         }
         counter++;
