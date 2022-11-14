@@ -12,28 +12,12 @@ static struct process_t process_table[NUM_PROC];
 static int pid_num = 1;
 static struct process_control_t pc;
 
-static struct process_control_t * get_pc(void)
-{
-    return &pc;
-}
-
 static void set_tss(struct process_t *proc)
 {
     tss.rsp0 = proc->stack + STACK_SIZE;    
 }
 
-static void switch_process(struct process_t *prev, struct process_t *current) 
-{
-    
-    set_tss(current);
-    switch_vm(current->page_map);
-    // Will change kernel stack for corresponding process.
-    // If we are proc1, after swap we are in proc2
-    swap(&prev->context, current->context);
-}
-
-
-static struct process_t* find_unused_process(void)
+static struct process_t* find_unused_process(void) 
 {
     struct process_t *process = NULL;
 
@@ -84,6 +68,22 @@ static void set_process_entry(struct process_t *proc, uint64_t addr)
     
 }
 
+static struct process_control_t * get_pc(void)
+{
+    return &pc;
+}
+
+
+
+static void switch_process(struct process_t *prev, struct process_t *current) 
+{
+    
+    set_tss(current);
+    switch_vm(current->page_map);
+    // Will change kernel stack for corresponding process.
+    // If we are proc1, after swap we are in proc2
+    swap(&prev->context, current->context);
+}
 static void schedule(void) 
 {
     struct process_t *prev_proc;
@@ -96,14 +96,13 @@ static void schedule(void)
     list = &process_control->ready_list;
     ASSERT(!is_list_empty(list));
     
-    // Process is set to running.  
+    // process_t is set to running.  
     current_proc = (struct process_t*)remove_list_head(list);
     current_proc->state = PROC_RUNNING;   
     process_control->curr_process = current_proc;
 
     switch_process(prev_proc, current_proc);   
 }
-
 
 void init_process(void)
 {  
@@ -124,8 +123,6 @@ void init_process(void)
     }
 }
 
-
-
 void launch(void)
 {
     struct process_control_t *process_control;
@@ -142,7 +139,6 @@ void launch(void)
     // Go to ring3
     pstart(process->tf);
 }
-
 
 void yield(void) 
 {
@@ -163,4 +159,38 @@ void yield(void)
     process->state = PROC_READY;
     append_list_tail(list, (struct list_t *)process);
     schedule();
+}
+
+
+void sleep(int wait)
+{
+    struct process_control_t *process_control;
+    struct process_t *process;
+    
+    process_control = get_pc();
+    process = process_control->curr_process;
+    process->state = PROC_SLEEP;
+    process->wait = wait;
+
+    append_list_tail(&process_control->wait_list, (struct list_t*)process);
+    schedule();
+}
+
+void wake_up(int wait)
+{
+    struct process_control_t *process_control;
+    struct process_t *process;
+    struct head_list_t *ready_list;
+    struct head_list_t *wait_list;
+
+    process_control = get_pc();
+    ready_list = &process_control->ready_list;
+    wait_list = &process_control->wait_list;
+    process = (struct process_t*)remove_list(wait_list, wait);
+
+    while (process != NULL) {       
+        process->state = PROC_READY;
+        append_list_tail(ready_list, (struct list_t*)process);
+        process = (struct process_t*)remove_list(wait_list, wait);
+    }
 }

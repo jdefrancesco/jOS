@@ -1,6 +1,7 @@
 Section .text 
 
 global writeu
+global sleepu
 
 ;int writeu(char *buff (rdi), int buffer_size (rsi));
 writeu: 
@@ -15,4 +16,18 @@ writeu:
     int 0x80
 
     add rsp, 16
+    ret
+
+
+sleepu:
+    sub rsp,8
+    mov eax,1
+
+    mov [rsp],rdi
+    mov rdi,1
+    mov rsi,rsp
+
+    int 0x80
+
+    add rsp,8
     ret

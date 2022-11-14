@@ -73,5 +73,6 @@ void load_idt(struct idt_ptr *ptr);
 uint8_t read_isr(void);
 uint64_t read_cr2(void);
 void trap_return(void);
+uint64_t get_ticks(void);
 
 #endif

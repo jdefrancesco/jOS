@@ -8,6 +8,7 @@ struct process_t  {
     struct list_t *next;
     int pid;
     int state;
+    int wait;
     uint64_t context;
     // PML4
     uint64_t page_map;
@@ -16,10 +17,10 @@ struct process_t  {
     struct trap_frame_t *tf;
 };
 
-
 struct process_control_t {
     struct process_t *curr_process;
     struct head_list_t ready_list;
+    struct head_list_t wait_list;
 };
 
 struct tss_t {
@@ -47,10 +48,14 @@ struct tss_t {
 #define PROC_INIT 1
 #define PROC_RUNNING 2
 #define PROC_READY 3
+#define PROC_SLEEP 4
 
 void init_process(void);
 void launch(void);
 void pstart(struct trap_frame_t *tf);
 void yield(void);
 void swap(uint64_t *prev, uint64_t next);
+void sleep(int wait);
+void wake_up(int wait);
+
 #endif

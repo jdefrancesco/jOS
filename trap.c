@@ -6,6 +6,7 @@
 #define VECTOR_COUNT 256
 static struct idt_ptr idt_pointer;
 static struct idt_entry vectors[VECTOR_COUNT];
+static uint64_t ticks;
 
 // init_idt_entry initalizes the Interrupt Descriptor Table
 static void
@@ -48,6 +49,17 @@ void init_idt(void)
     idt_pointer.addr = (uint64_t) vectors;
     load_idt(&idt_pointer);
 
+}
+
+uint64_t get_ticks(void)
+{
+    return ticks;
+}
+
+static void timer_handler(void)
+{
+    ticks++;
+    wake_up(-1);
 }
 
 // Handler of interrupts

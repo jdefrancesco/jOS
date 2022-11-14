@@ -16,6 +16,7 @@ struct head_list_t {
 // Linked list functions
 void append_list_tail(struct head_list_t *list, struct list_t *item);
 struct list_t *remove_list_head(struct head_list_t *list);
+struct list_t* remove_list(struct head_list_t *list, int wait);
 bool is_list_empty(struct head_list_t *list);
 
 void memset(void *buff, char c, int size);

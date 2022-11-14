@@ -6,10 +6,8 @@ int main(void)
 {
     size_t counter = 0;
     for(;;) {
-        if ((counter % 100000) == 0) {
-            printf("process2 %d\n", counter);
-        }
-        counter++;
+        printf("process2\n");
+        sleepu(100);
     }
     return 0;
 }
