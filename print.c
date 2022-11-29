@@ -175,7 +175,7 @@ int printk(const char *format, ...)
     }
 
     // 0xf -- print in white
-    // write_screen(buffer, buff_size, &screen_buffer, 0xf);
+    write_screen(buffer, buff_size, 0xf);
     va_end(args);
 
     return buff_size;

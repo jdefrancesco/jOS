@@ -17,6 +17,8 @@ void kmain(void)
     init_kvm();
     // Initialize our system call interface.
     init_system_call();
+    
     init_process();
+
     launch();
 }

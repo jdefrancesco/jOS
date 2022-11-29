@@ -43,7 +43,6 @@ static int sys_exit(int64_t *argptr)
 
 static int sys_wait(int64_t *argptr)
 {
-
     printk("[os] sys_wait called\n");
     wait();
     return 0;   
