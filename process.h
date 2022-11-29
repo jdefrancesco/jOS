@@ -21,6 +21,7 @@ struct process_control_t {
     struct process_t *curr_process;
     struct head_list_t ready_list;
     struct head_list_t wait_list;
+    struct head_list_t kill_list;
 };
 
 struct tss_t {
@@ -49,6 +50,7 @@ struct tss_t {
 #define PROC_RUNNING 2
 #define PROC_READY 3
 #define PROC_SLEEP 4
+#define PROC_KILLED 5
 
 void init_process(void);
 void launch(void);
@@ -57,5 +59,6 @@ void yield(void);
 void swap(uint64_t *prev, uint64_t next);
 void sleep(int wait);
 void wake_up(int wait);
-
+void wait(void);
+void exit(void);
 #endif

@@ -12,6 +12,9 @@ static struct process_t process_table[NUM_PROC];
 static int pid_num = 1;
 static struct process_control_t pc;
 
+// PID of Inet. The God Process....
+static const uint8_t kInitPid = 1;
+
 static void set_tss(struct process_t *proc)
 {
     tss.rsp0 = proc->stack + STACK_SIZE;    
@@ -75,6 +78,34 @@ static struct process_control_t * get_pc(void)
 
 
 
+// wait function is our reaper... Waiting for processes to exit and
+// clean up.
+void wait(void)
+{
+
+    struct process_t *process;
+    struct process_control_t *process_control;
+    struct head_list_t *list;
+
+    process_control = get_pc();
+    list = &process_control->kill_list;
+
+    while (1) {
+        if (!is_list_empty(list)) {
+            process = (struct process_t *) remove_list_head(list);
+            ASSERT((process->state) == PROC_KILLED);
+            // Tear down the VMA for process.
+            kfree(process->stack);
+            free_vm(process->page_map);
+            memset(process, 0, sizeof(struct process_t));
+        } else {
+            sleep(1);
+        }
+    }
+
+}
+
+
 static void switch_process(struct process_t *prev, struct process_t *current) 
 {
     
@@ -84,6 +115,7 @@ static void switch_process(struct process_t *prev, struct process_t *current)
     // If we are proc1, after swap we are in proc2
     swap(&prev->context, current->context);
 }
+
 static void schedule(void) 
 {
     struct process_t *prev_proc;
@@ -110,13 +142,13 @@ void init_process(void)
     struct process_control_t *process_control;
     struct process_t *process;
     struct head_list_t *list;
-    uint64_t addr[2] = {0x20000, 0x30000};
+    uint64_t addr[] = {0x20000, 0x30000, 0x40000};
     
     process_control = get_pc();
     list = &process_control->ready_list;
     printk("%x\n", process_control);
 
-    for (size_t i = 0; i < 2; i++) {
+    for (size_t i = 0; i < 3; i++) {
         process = find_unused_process();
         set_process_entry(process, addr[i]);
         append_list_tail(list, (struct list_t *)process);
@@ -193,4 +225,23 @@ void wake_up(int wait)
         append_list_tail(ready_list, (struct list_t*)process);
         process = (struct process_t*)remove_list(wait_list, wait);
     }
+}
+
+void exit(void) 
+{
+    struct process_control_t *proc_control = NULL;
+    struct process_t *process = NULL;
+    struct head_list_t *list = NULL;
+
+    proc_control = get_pc();
+    process = proc_control->curr_process;
+    process->state = PROC_KILLED;
+
+    list = &proc_control->kill_list;
+    append_list_tail(list, (struct list_t *)process);
+
+    // Wakeup process with PID 1 (inet)
+    wake_up(1);
+    // Invoke scheduler...
+    schedule();
 }

@@ -74,6 +74,19 @@ load_user2:
     int 0x13
     jc  read_error
 
+load_user3:
+    mov si,ReadPacket
+    mov word[si],0x10
+    mov word[si+2],10
+    mov word[si+4],0
+    mov word[si+6],0x4000
+    mov dword[si+8],126
+    mov dword[si+0xc],0
+    mov dl,[DriveId]
+    mov ah,0x42
+    int 0x13
+    jc  read_error
+
 get_mem_info_start:
 	mov eax, 0xe820
 	mov edx, 0x534d4150

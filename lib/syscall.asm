@@ -1,7 +1,10 @@
 Section .text 
 
+; EXPORT These symbolS
 global writeu
 global sleepu
+global exitu
+global waitu
 
 ;int writeu(char *buff (rdi), int buffer_size (rsi));
 writeu: 
@@ -30,4 +33,16 @@ sleepu:
     int 0x80
 
     add rsp,8
+    ret
+
+exitu:
+    mov eax, 2
+    mov rdi, 0
+
+    int 0x80
+    ret
+
+waitu:
+    mov eax, 3
+    mov rdi, 0
     ret
