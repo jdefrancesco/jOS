@@ -197,6 +197,12 @@ vector32:
 	push 32
 	jmp trap
 
+
+vector33: 
+	push 0
+	push 39
+	jmp trap
+
 ; Spurious IRQ
 vector39:
 	push 0

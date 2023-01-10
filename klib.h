@@ -19,6 +19,7 @@ struct list_t *remove_list_head(struct head_list_t *list);
 struct list_t* remove_list(struct head_list_t *list, int wait);
 bool is_list_empty(struct head_list_t *list);
 
+// Memory load/store/compare primitives.
 void memset(void *buff, char c, int size);
 void memmove(void *dst, void *src, int size);
 void memcpy(void *dst, void *src, int size);

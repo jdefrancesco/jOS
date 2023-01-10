@@ -79,6 +79,12 @@ void handler(struct trap_frame_t *tf)
             eoi();
             break;
 
+        // Keyboard interrupt
+        case 33:
+            keyboard_handler();
+            eoi();
+            break;
+
         // Spur. interrupts or not.
         case 39:
             isr_value = read_isr();
