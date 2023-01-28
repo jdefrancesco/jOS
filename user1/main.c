@@ -2,8 +2,10 @@
 
 int main(void)
 {
+    char ch[2] = { 0 };
     while (1) {
-        waitu();
+        ch[0] = keyboard_readu();
+        printf("%s", ch);
     }
     return 0;
 }
