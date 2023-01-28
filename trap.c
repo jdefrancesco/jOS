@@ -41,8 +41,8 @@ void init_idt(void)
     init_idt_entry(&vectors[18], (uint64_t) vector18, 0x8e);
     init_idt_entry(&vectors[19], (uint64_t) vector19, 0x8e);
     init_idt_entry(&vectors[32], (uint64_t) vector32, 0x8e);
+    init_idt_entry(&vectors[33], (uint64_t) vector33, 0x8e);
     init_idt_entry(&vectors[39], (uint64_t) vector39, 0x8e);
-
     // Our syscall. Attribute is EE, DPL = 3, not 0
     init_idt_entry(&vectors[0x80], (uint64_t)sysint, 0xee);
 
@@ -67,12 +67,12 @@ static void timer_handler(void)
 void handler(struct trap_frame_t *tf)
 {
     unsigned char isr_value;
-    printk("[Errno %d at ring-%d] %d:%x %x", 
-                tf->trapno, 
-                (tf->cs & 3), // Give us current priv. level
-                tf->errorcode,
-                read_cr2(), // VA causing exception (which was used for bad access), is in CR2
-                tf->rip);
+    // printk("[Errno %d at ring-%d] %d:%x %x", 
+    //             tf->trapno, 
+    //             (tf->cs & 3), // Give us current priv. level
+    //             tf->errorcode,
+    //             read_cr2(), // VA causing exception (which was used for bad access), is in CR2
+    //             tf->rip);
     switch (tf->trapno) {
         // timer
         case 32:

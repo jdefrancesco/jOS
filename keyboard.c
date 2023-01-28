@@ -3,19 +3,20 @@
 #include "process.h"
 
 #include <stdint.h>
-static unsigned char kShiftCode[256] = {
+
+static const unsigned char kShiftCode[] = {
     [0x2A] = SHIFT,
     [0x36] = SHIFT,
     [0xAA] = SHIFT,
     [0xB6] = SHIFT
 };
 
-static char kLockCode[256] = {
+static const unsigned char kLockCode[] = {
     [0x3A] = CAPS_LOCK,
 };
 
 // Scancode set 1. If key is 0 it is invalid.
-static char kKeyMap[256] = {
+static const unsigned char kKeyMap[] = {
     0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
     '-', '=', '\b', 0, 'q', 'w', 'e', 'r', 't', 'y', 'u',
     'i', 'o', 'p', '[', ']', '\n', 0, 'a', 's', 'd', 'f',
@@ -23,7 +24,7 @@ static char kKeyMap[256] = {
     'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0, '*', 0, ' '
 };
 
-static char kShiftKeyMap[256] = {
+static const unsigned char kShiftKeyMap[] = {
     0, 1, '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
     '_', '+', '\b', '\t', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U',
     'I', 'O', 'P', '{', '}', '\n', 0, 'A', 'S', 'D', 'F', 'G',
