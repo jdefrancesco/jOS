@@ -19,7 +19,6 @@ sys_write(int64_t *argptr)
 static int 
 sys_sleep(int64_t* argptr)
 {
-    printk("[os] sys_sleep called\n");
     uint64_t old_ticks; 
     uint64_t ticks;
     uint64_t sleep_ticks = argptr[0];
@@ -37,7 +36,7 @@ sys_sleep(int64_t* argptr)
 static int 
 sys_exit(int64_t *argptr)
 {
-    printk("[os] sys_exit called\n");
+    (void)argptr;
     exit();
     return 0;
 }
@@ -45,7 +44,7 @@ sys_exit(int64_t *argptr)
 static int 
 sys_wait(int64_t *argptr)
 {
-    printk("[os] sys_wait called\n");
+    (void)argptr;
     wait();
     return 0;   
 }
@@ -53,6 +52,7 @@ sys_wait(int64_t *argptr)
 static int 
 sys_keyboard_read(int64_t *argptr) 
 {
+    (void)argptr;
     return read_key_buffer();
 }
 

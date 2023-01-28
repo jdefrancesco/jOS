@@ -43,7 +43,7 @@ static size_t udec_to_string(char *buffer, size_t pos, uint64_t digits)
 }
 
 
-static size_t dec_to_string(char *buffer, size_t pos, uint64_t digits)
+static size_t dec_to_string(char *buffer, size_t pos, int64_t digits)
 {
     size_t sz = 0;
 

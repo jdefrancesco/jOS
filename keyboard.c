@@ -62,15 +62,14 @@ char read_key_buffer(void)
     return key_buffer.buffer[front];
 }
 
-
 // Obtain value from keyboard with inb interface.
 static char keyboard_read(void) 
 {
     unsigned char scan_code;
     char ch; 
 
+    // Get a byte from keyboard.
     scan_code = in_byte(0x60);
-
     if (scan_code == 0xE0) {
         flag |= E0_SIGN;
         return 0;
@@ -92,7 +91,7 @@ static char keyboard_read(void)
     flag ^= kLockCode[scan_code];
 
     if ( flag & SHIFT) {
-        ch = kShiftCode[scan_code];
+        ch = kShiftKeyMap[scan_code];
     } else {
         ch = kKeyMap[scan_code];
     }

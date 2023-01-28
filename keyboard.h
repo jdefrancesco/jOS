@@ -15,7 +15,7 @@ struct keyboard_buffer_t {
 #define CAPS_LOCK (1 << 2)
 
 char read_key_buffer(void);
-unsigned char in_byte(uint16_t port);
 void keyboard_handler(void);
+unsigned char in_byte(uint16_t port);
 
 #endif

@@ -9,11 +9,10 @@
 
 extern struct tss_t tss; 
 static struct process_t process_table[NUM_PROC];
-static int pid_num = 1;
 static struct process_control_t pc;
 
 // PID of Inet. The God Process....
-static const uint8_t kInitPid = 1;
+static uint8_t kInitPid = 1;
 
 static void set_tss(struct process_t *proc)
 {
@@ -39,7 +38,7 @@ static void set_process_entry(struct process_t *proc, uint64_t addr)
     uint64_t stack_top;
 
     proc->state = PROC_INIT;
-    proc->pid = pid_num++;
+    proc->pid = kInitPid++;
 
     // Allocate kernel stack
     proc->stack = (uint64_t)kalloc();
