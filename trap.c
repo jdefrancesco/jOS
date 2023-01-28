@@ -2,6 +2,7 @@
 #include "print.h"
 #include "syscall.h"
 #include "process.h"
+#include "keyboard.h"
 
 #define VECTOR_COUNT 256
 static struct idt_ptr idt_pointer;

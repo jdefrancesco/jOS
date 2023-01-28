@@ -1,11 +1,9 @@
-Section .text 
-
+section .text
 global start
-
 extern main
 extern exitu
 
-start: 
+start:
     call main
     call exitu
     jmp $

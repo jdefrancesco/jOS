@@ -76,4 +76,5 @@ uint64_t read_cr2(void);
 void trap_return(void);
 uint64_t get_ticks(void);
 
+
 #endif

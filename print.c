@@ -103,27 +103,40 @@ void write_screen(const char *buffer, size_t size, char color)
     int row = sb->row;
 
     for (size_t i = 0; i < size; i++) {
-        if (row >= 25) {
-            memcpy(sb->buff, (sb->buff + LINE_SIZE), LINE_SIZE * 24);
-            memset(sb->buff+LINE_SIZE*24, 0x00, LINE_SIZE);
-            row--;
-        }
-
-        if (buffer[i] == '\n') {
+        if (buffer[i] == '\n') {     
             column = 0;
             row++;
-        } else {
-            sb->buff[column * 2 + row * LINE_SIZE] = buffer[i];
-            sb->buff[column * 2 + row * LINE_SIZE+1] = color;
+        }       
+        else if (buffer[i] == '\b') { 
+            if (column == 0 && row == 0) {
+                continue;
+            }
+            
+            if (column == 0) {
+                row--;
+                column = 80;
+            }
 
+            column -= 1;
+            sb->buff[column*2+row*LINE_SIZE] = 0;
+            sb->buff[column*2+row*LINE_SIZE+1] = 0;  
+        }
+        else {         
+            sb->buff[column*2+row*LINE_SIZE] = buffer[i];
+            sb->buff[column*2+row*LINE_SIZE+1] = color;
             column++;
 
             if (column >= 80) {
-                column = 0;
+                column=0;
                 row++;
             }
         }
 
+        if (row >= 25) {
+            memcpy(sb->buff,sb->buff+LINE_SIZE,LINE_SIZE*24);
+            memset(sb->buff+LINE_SIZE*24,0,LINE_SIZE);
+            row--;
+        }
     }
 
     sb->column = column;

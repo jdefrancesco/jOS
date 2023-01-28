@@ -92,6 +92,7 @@ global read_cr2
 global pstart
 global sysint
 global swap
+global in_byte
 
 trap:
 	push_all_regs
@@ -264,4 +265,9 @@ swap:
 	pop rbp
 	pop rbx
 
+	ret
+
+in_byte:
+	mov rdx, rdi
+	in al, dx
 	ret

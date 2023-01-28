@@ -1,11 +1,9 @@
-#include "./lib.h"
+#include "lib.h"
 
-int main(void) 
+int main(void)
 {
-    printf("[INET] Launching processes...\n");
-    while(1) {
+    while (1) {
         waitu();
     }
-
     return 0;
 }

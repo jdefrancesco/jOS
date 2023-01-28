@@ -1,12 +1,12 @@
 #include "lib.h"
-#include <stdint.h>
 
 int main(void)
 {
-    int64_t counter = 0;
+    char *p = (char*)0xffff800000200200;
 
-    while (1) {
-        counter++;
-    }
+    *p = 1;
+    printf("process2\n");
+    sleepu(100);
+    
     return 0;
 }
