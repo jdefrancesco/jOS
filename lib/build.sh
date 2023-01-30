@@ -6,5 +6,7 @@ if command -v figlet &> /dev/null; then
 fi
 
 nasm -felf64 -o syscall.o syscall.asm
+nasm -felf64 -o lib.o lib.asm
+
 x86_64-elf-gcc -std=c99 -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -c print.c
-x86_64-elf-ar rcs lib.a print.o syscall.o
+x86_64-elf-ar rcs lib.a print.o syscall.o lib.o

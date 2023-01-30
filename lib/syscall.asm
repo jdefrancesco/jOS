@@ -6,6 +6,7 @@ global sleepu
 global exitu
 global waitu
 global keyboard_readu
+global get_total_memoryu
 
 ;int writeu(char *buff (rdi), int buffer_size (rsi));
 writeu: 
@@ -51,5 +52,12 @@ waitu:
 keyboard_readu:
     mov eax, 4
     xor edi, edi
+    int 0x80
+    ret
+
+get_total_memoryu:
+    mov eax, 5
+    xor edi, edi
+    
     int 0x80
     ret

@@ -31,14 +31,15 @@ static struct free_mem_region_t free_mem_region[50];
 static struct page_t free_memory;
 static uint64_t memory_end;
 
+// Store total size of memory available in system.
+static uint64_t total_mem;
+
 extern char end;
 
 // We need to get the available memory map from the BIOS
 // We will break up kernel into 2MB phys pages.
 void init_memory(void)
 {
-    // Store size of free memory we can use.
-    uint64_t total_mem = 0;
     int32_t count  = *(int32_t *)0x9000;
     struct e820_t *mem_map =  (struct e820_t *)0x9008;
     // Store count of free memory regions.
@@ -78,6 +79,10 @@ void init_memory(void)
 
 }
 
+uint64_t get_total_mem(void)
+{
+    return total_mem / 1024 / 1024;
+}
 
 // free_region frees a previously allocated memory region.
 static void free_region(uint64_t v, uint64_t e)

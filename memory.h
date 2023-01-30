@@ -73,5 +73,6 @@ void load_cr3(uint64_t map);
 bool setup_uvm(uint64_t map, uint64_t start, int size);
 uint64_t setup_kvm(void);
 void free_vm(uint64_t map);
+uint64_t get_total_mem(void);
 
 #endif
