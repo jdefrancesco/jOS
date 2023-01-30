@@ -72,9 +72,7 @@ void system_call(struct trap_frame_t *tf)
     int64_t *argptr = (int64_t *)tf->rsi;
 
     // rax holds syscall we look up in table.
-
-    if ((param_count < 0) || (i > 3) 
-                            || (i < 0)) {
+    if ((param_count < 0) || (i > 4) || (i < 0)) {
         tf->rax = -1;
         return;
     }

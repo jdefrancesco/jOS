@@ -156,7 +156,7 @@ init_pic:
 	out 0x21, al
 	out 0xa1, al
 
-	mov al, 0b11111110
+	mov al, 0b11111100
 	out 0x21, al
 	mov al, 0b11111111
 	out 0xa1, al

@@ -62,25 +62,8 @@ global vector16
 global vector17
 global vector18
 global vector19
-global vector20
-global vector21
-global vector22
-global vector23
-global vector24
-global vector25
-global vector26
-global vector27
-global vector28
-global vector29
-global vector30
-global vector31
 global vector32
 global vector33
-global vector34
-global vector35
-global vector36
-global vector37
-global vector38
 global vector39
 
 global eoi
@@ -201,7 +184,7 @@ vector32:
 
 vector33: 
 	push 0
-	push 39
+	push 33
 	jmp trap
 
 ; Spurious IRQ
