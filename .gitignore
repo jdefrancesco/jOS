@@ -1,5 +1,7 @@
 .vscode
 .DS_Store
 toaruos
+tests/
+test/
 cscope.out
 tags
