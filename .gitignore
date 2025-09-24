@@ -7,3 +7,5 @@ cscope.out
 tags
 *.o
 jOS.code-workspace
+kernel.bin
+kernel
