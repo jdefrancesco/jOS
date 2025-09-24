@@ -1,4 +1,7 @@
 .vscode
+*.lock
+*.txt
+bochs.log
 .DS_Store
 toaruos
 tests/
