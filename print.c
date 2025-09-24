@@ -24,8 +24,7 @@ static struct screen_buffer screen_buffer = {(char *)P2V(0xb8000), 0, 0};
 // Unsigned decimal to string formatting function.
 static size_t udec_to_string(char *buffer, size_t pos, uint64_t digits)
 {
-    // const char * const kDecDigits = DEC_DIGITS;
-    char digits_map[10] = DEC_DIGITS;
+    char digits_map[] = DEC_DIGITS;
     char digits_buffer[DIGITS_BUFF_SIZE] = {0};
     int sz = 0;
 
@@ -94,7 +93,7 @@ static int hex_to_string(char *buffer, size_t pos, uint64_t digits)
 }
 
 // write_to_screen prints data to output. Crude page scrolling
-// is also implemented; we can improve it in the future if 
+// is also implemented; we can improve it in the future if
 // need be.
 void write_screen(const char *buffer, size_t size, char color)
 {
@@ -103,15 +102,15 @@ void write_screen(const char *buffer, size_t size, char color)
     int row = sb->row;
 
     for (size_t i = 0; i < size; i++) {
-        if (buffer[i] == '\n') {     
+        if (buffer[i] == '\n') {
             column = 0;
             row++;
-        }       
-        else if (buffer[i] == '\b') { 
+        }
+        else if (buffer[i] == '\b') {
             if (column == 0 && row == 0) {
                 continue;
             }
-            
+
             if (column == 0) {
                 row--;
                 column = 80;
@@ -119,9 +118,9 @@ void write_screen(const char *buffer, size_t size, char color)
 
             column -= 1;
             sb->buff[column*2+row*LINE_SIZE] = 0;
-            sb->buff[column*2+row*LINE_SIZE+1] = 0;  
+            sb->buff[column*2+row*LINE_SIZE+1] = 0;
         }
-        else {         
+        else {
             sb->buff[column*2+row*LINE_SIZE] = buffer[i];
             sb->buff[column*2+row*LINE_SIZE+1] = color;
             column++;

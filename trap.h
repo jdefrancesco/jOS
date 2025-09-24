@@ -75,6 +75,6 @@ uint8_t read_isr(void);
 uint64_t read_cr2(void);
 void trap_return(void);
 uint64_t get_ticks(void);
-
+void handler(struct trap_frame_t *tf);
 
 #endif

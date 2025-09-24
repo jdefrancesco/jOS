@@ -64,11 +64,11 @@ static void timer_handler(void)
 }
 
 // Handler of interrupts
-void handler(struct trap_frame_t *tf)
+__attribute__((used)) void handler(struct trap_frame_t *tf)
 {
     unsigned char isr_value;
-    // printk("[HANDLER] %d at ring-%d] %d:%x %x", 
-    //             tf->trapno, 
+    // printk("[HANDLER] %d at ring-%d] %d:%x %x",
+    //             tf->trapno,
     //             (tf->cs & 3), // Give us current priv. level
     //             tf->errorcode,
     //             read_cr2(), // VA causing exception (which was used for bad access), is in CR2

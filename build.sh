@@ -9,9 +9,10 @@ fi
 # Build BIOS MBR, early boot coode...n
 nasm -fbin -o boot.bin boot.asm
 nasm -fbin -o loader.bin loader.asm
+
 nasm -felf64 -o kernel.o kernel.asm
-nasm -felf64 -o trapa.o trap.asm
-nasm -felf64 -o kliba.o klib.asm
+nasm -felf64 -o trapa.o trap_asm.asm
+nasm -felf64 -o kliba.o klib_asm.asm
 
 # Use our cross compilers here..
 x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -Wall -Wextra -pedantic -Werror -c main.c
@@ -22,7 +23,7 @@ x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-prote
 x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -Wall -Wextra -pedantic -Werror -c process.c
 x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -Wall -Wextra -pedantic -Werror -c syscall.c
 x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -Wall -Wextra -pedantic -Werror -c klib.c
-x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -Wall -Wextra -pedantic -Werror -c keyboard.c 
+x86_64-elf-gcc -std=c99 -nostdlib -mcmodel=large -ffreestanding -fno-stack-protector -mno-red-zone -Wall -Wextra -pedantic -Werror -c keyboard.c
 # Link it all...
 x86_64-elf-ld -nostdlib -T link.lds -o kernel kernel.o main.o trapa.o trap.o kliba.o print.o debug.o memory.o process.o syscall.o klib.o keyboard.o
 

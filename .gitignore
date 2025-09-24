@@ -5,3 +5,5 @@ tests/
 test/
 cscope.out
 tags
+*.o
+
